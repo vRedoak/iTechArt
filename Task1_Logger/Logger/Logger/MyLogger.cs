@@ -15,7 +15,7 @@ namespace Logger
         Data_Base
     }
 
-    public class MyLogger: ILogger
+    public class MyLogger : ILogger
     {
         List<ILogger> objectToWrite = new List<ILogger>();
 

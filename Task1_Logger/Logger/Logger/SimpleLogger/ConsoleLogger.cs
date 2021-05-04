@@ -15,22 +15,22 @@ namespace Logger
 
         public void Error(string message)
         {
-            Console.WriteLine("Error: "+ message);
+            Console.WriteLine("Error: "+ message + $" Time: {DateTime.Now}");
         }
 
         public void Error(Exception ex)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            Console.WriteLine("Error: " + ex.Message + $" Time: {DateTime.Now}");
         }
 
         public void Info(string message)
         {
-            Console.WriteLine("Info: " + message);
+            Console.WriteLine("Info: " + message + $" Time: {DateTime.Now}");
         }
 
         public void Warning(string message)
         {
-            Console.WriteLine("Warning: " + message);
+            Console.WriteLine("Warning: " + message + $" Time: {DateTime.Now}");
         }
 
 

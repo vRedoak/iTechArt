@@ -24,7 +24,7 @@ namespace Logger.SimpleLogger
                 using (SqlConnection sw = new SqlConnection(connectionString))
                 {
                     sw.Open();
-                    using (SqlCommand sc = new SqlCommand($"INSERT INTO Messages VALUES ('Error', '{message}')", sw))
+                    using (SqlCommand sc = new SqlCommand($"INSERT INTO Messages VALUES ('Error', '{message} Time: { DateTime.Now }')", sw))
                     {
                         SqlDataReader dr = sc.ExecuteReader();
                         dr.Close();
@@ -33,7 +33,7 @@ namespace Logger.SimpleLogger
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"DataBase write error: {ex.Message}");
+                Console.WriteLine($"DataBase write error: {ex.Message}  Time: { DateTime.Now }");
             }
         }
 
@@ -42,10 +42,10 @@ namespace Logger.SimpleLogger
             try
             {
 
-                using (SqlConnection sw = new SqlConnection(@"Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = ForLogs; Integrated Security = True; User Id = ICX\V.Krasnadubskaya; Password = 5128245.ru"))
+                using (SqlConnection sw = new SqlConnection(connectionString))
                 {
                     sw.Open();
-                    using (SqlCommand sc = new SqlCommand($"INSERT INTO Messages VALUES ('Error', '{ex.Message}')", sw))
+                    using (SqlCommand sc = new SqlCommand($"INSERT INTO Messages VALUES ('Error', '{ex.Message}  Time: { DateTime.Now }')", sw))
                     {
                         SqlDataReader dr = sc.ExecuteReader();
                         dr.Close();
@@ -54,7 +54,7 @@ namespace Logger.SimpleLogger
             }
             catch (Exception exception)
             {
-                Console.WriteLine($"DataBase write error: {exception.Message}");
+                Console.WriteLine($"DataBase write error: {exception.Message}  Time: { DateTime.Now }");
             }
         }
 
@@ -63,10 +63,10 @@ namespace Logger.SimpleLogger
             try
             {
 
-                using (SqlConnection sw = new SqlConnection(@"Data Source = WSdA-112-21\SQL_EXPRESS; Initial Catalog = ForLogs; Integrated Security = True; User Id = ICX\V.Krasnadubskaya; Password = 5128245.ru"))
+                using (SqlConnection sw = new SqlConnection(connectionString))
                 {
                     sw.Open();
-                    using (SqlCommand sc = new SqlCommand($"INSERT INTO Messages VALUES ('Warning', '{message}')", sw))
+                    using (SqlCommand sc = new SqlCommand($"INSERT INTO Messages VALUES ('Warning', '{message}  Time: { DateTime.Now }')", sw))
                     {
                         SqlDataReader dr = sc.ExecuteReader();
                         dr.Close();
@@ -75,7 +75,7 @@ namespace Logger.SimpleLogger
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"DataBase write error: {ex.Message}");
+                Console.WriteLine($"DataBase write error: {ex.Message}  Time: { DateTime.Now }");
             }
         }
 
@@ -84,10 +84,10 @@ namespace Logger.SimpleLogger
             try
             {
 
-                using (SqlConnection sw = new SqlConnection(@"Data Source = WSdA-112-21\SQL_EXPRESS; Initial Catalog = ForLogs; Integrated Security = True; User Id = ICX\V.Krasnadubskaya; Password = 5128245.ru"))
+                using (SqlConnection sw = new SqlConnection(connectionString))
                 {
                     sw.Open();
-                    using (SqlCommand sc = new SqlCommand($"INSERT INTO Messages VALUES ('Info', '{message}')", sw))
+                    using (SqlCommand sc = new SqlCommand($"INSERT INTO Messages VALUES ('Info', '{message}  Time: { DateTime.Now }')", sw))
                     {
                         SqlDataReader dr = sc.ExecuteReader();
                         dr.Close();
@@ -96,7 +96,7 @@ namespace Logger.SimpleLogger
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"DataBase write error: {ex.Message}");
+                Console.WriteLine($"DataBase write error: {ex.Message}  Time: { DateTime.Now }");
             }
         }
     }
