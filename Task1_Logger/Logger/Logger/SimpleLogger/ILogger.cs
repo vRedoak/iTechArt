@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Logger
+namespace Logger.SimpleLogger
 {
-    interface ILogger
+    public interface ILogger
     {
         void Error(string message);
         void Error(Exception ex);

@@ -1,65 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Logger.SimpleLogger;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Logger.SimpleLogger;
 
 namespace Logger
 {
 
-    public enum RecordingMode
+    public enum LoggerType
     {
         Console,
         File,
-        Data_Base
+        DataBase
     }
 
     public class MyLogger : ILogger
     {
-        List<ILogger> objectToWrite = new List<ILogger>();
+        private readonly List<ILogger> _loggersList = new List<ILogger>();
 
-        public MyLogger(params RecordingMode[] recordingMode)
+        public MyLogger(ILoggerProvider loggerProvider, params LoggerType[] recordingMode)
         {
-            if (recordingMode.Contains(RecordingMode.Console))
-            {
-                objectToWrite.Add(new ConsoleLogger());
-            }
-
-            if (recordingMode.Contains(RecordingMode.File))
-            {
-                objectToWrite.Add(new FileLogger());
-            }
-
-            if (recordingMode.Contains(RecordingMode.Data_Base))
-            {
-                objectToWrite.Add(new DataBaseLoger());
-            }
-
-            if (objectToWrite.Count() == 0)
-            {
-                objectToWrite.Add(new ConsoleLogger());
-            }
+            _loggersList.AddRange(recordingMode?.Select(loggerProvider.GetLogger));
         }
 
         public void Error(string message)
         {
-            objectToWrite.ForEach(x => x.Error(message));
+            _loggersList.ForEach(x => x.Error(message));
         }
 
         public void Error(Exception ex)
         {
-            objectToWrite.ForEach(x => x.Error(ex));
+            _loggersList.ForEach(x => x.Error(ex));
         }
 
         public void Info(string message)
         {
-            objectToWrite.ForEach(x => x.Info(message));
+            _loggersList.ForEach(x => x.Info(message));
         }
 
         public void Warning(string message)
         {
-            objectToWrite.ForEach(x => x.Warning(message));
+            _loggersList.ForEach(x => x.Warning(message));
         }
     }
 }

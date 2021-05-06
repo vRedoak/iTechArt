@@ -25,7 +25,7 @@ namespace Logger.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Tasks\\iTechArt\\Task1_Logger\\Logger\\Logger\\logs.txt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("log.txt")]
         public string filePath {
             get {
                 return ((string)(this["filePath"]));

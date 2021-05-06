@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="filePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Tasks\iTechArt\Task1_Logger\Logger\Logger\logs.txt</Value>
+      <Value Profile="(Default)">log.txt</Value>
     </Setting>
     <Setting Name="dataBaseConnection" Type="System.String" Scope="User">
       <Value Profile="(Default)">Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = ForLogs; Integrated Security = True; User Id = ICX\V.Krasnadubskaya</Value>

@@ -1,77 +1,59 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Logger.SimpleLogger
 {
     public class FileLogger : ILogger
     {
-        string filePath;
+        private readonly string _filePath;
 
-        public FileLogger()
+        private FileLogger(string filePath)
         {
-            filePath = Properties.Settings.Default.filePath;
+            _filePath = filePath;
+        }
+
+        private static FileLogger _instance;
+
+        public static FileLogger GetInstance(string filePath)
+        {
+            if (_instance == null)
+            {
+                _instance = new FileLogger(filePath);
+            }
+            return _instance;
         }
 
         public void Error(string message)
         {
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(filePath, true, System.Text.Encoding.Default))
-                {
-                    sw.WriteLine("Error: " + message + $" Time: {DateTime.Now}");
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"File write error: {ex.Message} Time: {DateTime.Now}");
-            }
+            Log(LogLevel.Error, message);
         }
 
-        public void Error(Exception ex)
+        public void Error(Exception exception)
         {
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(filePath, true, System.Text.Encoding.Default))
-                {
-                    sw.WriteLine("Error: " + ex.Message + $" Time: {DateTime.Now}");
-                }
-            }
-            catch (Exception exeption)
-            {
-                Console.WriteLine($"File write error: {exeption.Message} Time: {DateTime.Now}");
-            }
+            Log(LogLevel.Error, exception.Message);
         }
 
         public void Warning(string message)
         {
-            try
-            {
-                using (StreamWriter sw = new StreamWriter(filePath, true, System.Text.Encoding.Default))
-                {
-                    sw.WriteLine("Warning: " + message + $" Time: {DateTime.Now}");
-                }
-            }
-            catch (Exception exeption)
-            {
-                Console.WriteLine($"File write error {exeption.Message} Time: {DateTime.Now}");
-            }
+            Log(LogLevel.Warning, message);
         }
 
         public void Info(string message)
         {
+            Log(LogLevel.Information, message);
+        }
+
+        private void Log(LogLevel logLevel, string message)
+        {
             try
             {
-                using (StreamWriter sw = new StreamWriter(filePath, true, System.Text.Encoding.Default))
-                {
-                    sw.WriteLine("Info: " + message + $" Time: {DateTime.Now}");
-                }
+                using var streamWriter = new StreamWriter(_filePath, true, System.Text.Encoding.Default);
+                streamWriter.WriteLine($"{logLevel}: {message} Time: {DateTime.Now}");
             }
-            catch (Exception exeption)
+            catch (Exception exception)
             {
-                Console.WriteLine($"File write error {exeption.Message} Time: {DateTime.Now}");
+                Console.WriteLine($"File write error {exception.Message} Time: {DateTime.Now}");
             }
         }
     }

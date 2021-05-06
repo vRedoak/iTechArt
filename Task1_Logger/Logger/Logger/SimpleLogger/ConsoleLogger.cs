@@ -1,39 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
+using Microsoft.Extensions.Logging;
 
-namespace Logger
+namespace Logger.SimpleLogger
 {
     public class ConsoleLogger : ILogger
     {
+        private ConsoleLogger() { }
 
-        public ConsoleLogger()
+        private static ConsoleLogger _instance;
+
+        public static ConsoleLogger GetInstance()
         {
-
+            if (_instance == null)
+            {
+                _instance = new ConsoleLogger();
+            }
+            return _instance;
         }
 
         public void Error(string message)
         {
-            Console.WriteLine("Error: "+ message + $" Time: {DateTime.Now}");
+            Log(LogLevel.Error, message);
         }
-
-        public void Error(Exception ex)
+                                                                                                                                                                                                                                                                                                                                                                                                                                         
+        public void Error(Exception exception)
         {
-            Console.WriteLine("Error: " + ex.Message + $" Time: {DateTime.Now}");
+            Log(LogLevel.Error, exception.Message);
         }
 
         public void Info(string message)
         {
-            Console.WriteLine("Info: " + message + $" Time: {DateTime.Now}");
+            Log(LogLevel.Information, message);
         }
 
         public void Warning(string message)
         {
-            Console.WriteLine("Warning: " + message + $" Time: {DateTime.Now}");
+            Log(LogLevel.Warning, message);
         }
 
-
-
+        private static void Log(LogLevel logLevel, string message)
+        {
+            Console.WriteLine($"{logLevel}: {message} Time: {DateTime.Now}");
+        }
     }
 }
