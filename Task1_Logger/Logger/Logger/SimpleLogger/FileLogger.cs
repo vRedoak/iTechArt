@@ -7,7 +7,7 @@ namespace Logger.SimpleLogger
     public class FileLogger : ILogger
     {
         private readonly string _filePath;
-        private const string _defaultFilePath = "logs.txt";
+        private const string _defaultFilePath = "../../../logs.txt";
 
         private FileLogger(string filePath)
         {
