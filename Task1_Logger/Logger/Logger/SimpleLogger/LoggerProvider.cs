@@ -1,6 +1,6 @@
-﻿using Logger.SimpleLogger;
+﻿using MyLogger.SimpleLogger;
 
-namespace Logger
+namespace MyLogger
 {
     public class LoggerProvider : ILoggerProvider
     {

@@ -2,11 +2,11 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Logger
+namespace MyLogger
 {
     public partial class Form1 : Form
     {
-        MyLogger logger = new MyLogger(new LoggerProvider(), LoggerType.File);
+        Logger logger = new Logger(new LoggerProvider(), LoggerType.File);
         public Form1()
         {
             InitializeComponent();

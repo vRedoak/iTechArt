@@ -2,7 +2,7 @@
 using System.IO;
 using Microsoft.Extensions.Logging;
 
-namespace Logger.SimpleLogger
+namespace MyLogger.SimpleLogger
 {
     public class FileLogger : ILogger
     {

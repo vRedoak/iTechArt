@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace Logger.SimpleLogger
+namespace MyLogger.SimpleLogger
 {
     public class ConsoleLogger : ILogger
     {

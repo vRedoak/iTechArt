@@ -1,5 +1,5 @@
 ﻿
-namespace Logger
+namespace MyLogger
 {
     partial class Form1
     {

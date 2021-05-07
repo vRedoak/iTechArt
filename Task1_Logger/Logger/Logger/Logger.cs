@@ -1,9 +1,9 @@
-﻿using Logger.SimpleLogger;
+﻿using MyLogger.SimpleLogger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Logger
+namespace MyLogger
 {
 
     public enum LoggerType
@@ -13,11 +13,11 @@ namespace Logger
         DataBase
     }
 
-    public class MyLogger : ILogger
+    public class Logger : ILogger
     {
         private readonly List<ILogger> _loggersList = new List<ILogger>();
 
-        public MyLogger(ILoggerProvider loggerProvider, params LoggerType[] loggerType)
+        public Logger(ILoggerProvider loggerProvider, params LoggerType[] loggerType)
         {
             if (loggerType.Length != 0)
             {

@@ -5,3 +5,7 @@ Error: Forbidden button was pressed Time: 5/7/2021 11:08:52 AM
 Error: Specially created error Time: 5/7/2021 11:08:53 AM
 Warning: The mouse moves inside the forbidden button Time: 5/7/2021 11:08:53 AM
 Error: Forbidden button was pressed Time: 5/7/2021 11:08:53 AM
+Information: Button 1 was pressed Time: 5/7/2021 3:05:21 PM
+Warning: The mouse moves inside the forbidden button Time: 5/7/2021 3:05:23 PM
+Warning: The mouse moves inside the forbidden button Time: 5/7/2021 3:05:24 PM
+Information: Button 2 was pressed Time: 5/7/2021 3:05:24 PM

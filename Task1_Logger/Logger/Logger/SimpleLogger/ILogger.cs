@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Logger.SimpleLogger
+namespace MyLogger.SimpleLogger
 {
     public interface ILogger
     {

@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
-namespace Logger.SimpleLogger
+namespace MyLogger.SimpleLogger
 {
     public class DataBaseLogger : ILogger
     {
