@@ -7,6 +7,7 @@ namespace Logger.SimpleLogger
     public class DataBaseLogger : ILogger
     {
         private readonly string _connectionString;
+        private const string _defaultConnectionString = @"Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = ForLogs; Integrated Security = True; User Id = ICX\V.Krasnadubskaya";
 
         private DataBaseLogger(string connectionString)
         {
@@ -15,17 +16,11 @@ namespace Logger.SimpleLogger
 
         private static DataBaseLogger _instance;
 
-        public DataBaseLogger Create(string connectionString)
-        {
-            _instance = new DataBaseLogger(connectionString);
-            return _instance;
-        }
-
-        public static DataBaseLogger GetInstance()
+        public static DataBaseLogger GetInstance(string connectionString = _defaultConnectionString)
         {
             if (_instance == null)
             {
-                throw new Exception("Object not created.");
+                _instance = new DataBaseLogger(connectionString);
             }
             return _instance;
         }

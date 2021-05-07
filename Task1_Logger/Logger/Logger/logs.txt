@@ -1,13 +1,7 @@
-Warning: The mouse moves inside the forbidden button Time: 5/4/2021 3:20:32 PM
-Error: Forbidden button was pressed Time: 5/4/2021 3:20:33 PM
-Info: Button 1 was pressed Time: 5/4/2021 3:20:34 PM
-Info: Button 2 was pressed Time: 5/4/2021 3:20:35 PM
-Error: Specially created error Time: 5/4/2021 3:26:45 PM
-Warning: The mouse moves inside the forbidden button Time: 5/4/2021 3:38:02 PM
-Info: Button 1 was pressed Time: 5/4/2021 3:38:10 PM
-Warning: The mouse moves inside the forbidden button Time: 5/6/2021 11:38:18 AM
-Warning: The mouse moves inside the forbidden button Time: 5/6/2021 11:39:33 AM
-Warning: The mouse moves inside the forbidden button Time: 5/6/2021 11:39:36 AM
-Warning: The mouse moves inside the forbidden button Time: 5/6/2021 11:39:36 AM
-Warning: The mouse moves inside the forbidden button Time: 5/6/2021 11:39:37 AM
-Warning: The mouse moves inside the forbidden button Time: 5/6/2021 11:39:37 AM
+Information: Button 1 was pressed Time: 5/7/2021 11:08:51 AM
+Information: Button 2 was pressed Time: 5/7/2021 11:08:51 AM
+Warning: The mouse moves inside the forbidden button Time: 5/7/2021 11:08:52 AM
+Error: Forbidden button was pressed Time: 5/7/2021 11:08:52 AM
+Error: Specially created error Time: 5/7/2021 11:08:53 AM
+Warning: The mouse moves inside the forbidden button Time: 5/7/2021 11:08:53 AM
+Error: Forbidden button was pressed Time: 5/7/2021 11:08:53 AM

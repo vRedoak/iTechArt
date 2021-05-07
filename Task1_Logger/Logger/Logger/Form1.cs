@@ -6,7 +6,7 @@ namespace Logger
 {
     public partial class Form1 : Form
     {
-        MyLogger logger = new MyLogger(new LoggerProvider(), LoggerType.File, LoggerType.Console);
+        MyLogger logger = new MyLogger(new LoggerProvider(), LoggerType.File);
         public Form1()
         {
             InitializeComponent();

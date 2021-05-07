@@ -7,6 +7,7 @@ namespace Logger.SimpleLogger
     public class FileLogger : ILogger
     {
         private readonly string _filePath;
+        private const string _defaultFilePath = "logs.txt";
 
         private FileLogger(string filePath)
         {
@@ -15,7 +16,7 @@ namespace Logger.SimpleLogger
 
         private static FileLogger _instance;
 
-        public static FileLogger GetInstance(string filePath)
+        public static FileLogger GetInstance(string filePath = _defaultFilePath)
         {
             if (_instance == null)
             {

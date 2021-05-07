@@ -17,9 +17,16 @@ namespace Logger
     {
         private readonly List<ILogger> _loggersList = new List<ILogger>();
 
-        public MyLogger(ILoggerProvider loggerProvider, params LoggerType[] recordingMode)
+        public MyLogger(ILoggerProvider loggerProvider, params LoggerType[] loggerType)
         {
-            _loggersList.AddRange(recordingMode?.Select(loggerProvider.GetLogger));
+            if (loggerType.Length != 0)
+            {
+                _loggersList.AddRange(loggerType.Select(loggerProvider.GetLogger));
+            }
+            else
+            {
+                _loggersList.Add(loggerProvider.GetLogger(LoggerType.Console));
+            }
         }
 
         public void Error(string message)

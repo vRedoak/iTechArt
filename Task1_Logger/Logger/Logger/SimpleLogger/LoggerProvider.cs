@@ -9,15 +9,15 @@ namespace Logger
             switch (loggerType)
             {
                 case LoggerType.Console:
-                    return new ConsoleLogger();
+                    return ConsoleLogger.GetInstance();
 
                 case LoggerType.File:
-                    return new FileLogger(Properties.Settings.Default.filePath);
+                    return FileLogger.GetInstance(Properties.Settings.Default.filePath);
 
                 case LoggerType.DataBase:
-                    return new DataBaseLogger(Properties.Settings.Default.dataBaseConnection);
+                    return DataBaseLogger.GetInstance(Properties.Settings.Default.dataBaseConnection);
 
-                default: return new ConsoleLogger();
+                default: return ConsoleLogger.GetInstance();
             }
         }
     }
