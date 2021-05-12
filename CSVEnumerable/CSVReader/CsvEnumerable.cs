@@ -1,25 +1,22 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using CsvHelper;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
+using System.IO;
 
-namespace CSVReader
+namespace EnumerableCsv
 {
-    class CsvEnumerable<T> : IEnumerable<T>, IEnumerator<T>
+    class CsvEnumerable<T> : IEnumerable<T>, IEnumerator<T>, IDisposable
     {
         private int index = -1;
-        List<T> data = new List<T>();
+        readonly List<T> _csvRecords = new List<T>();
 
         T IEnumerator<T>.Current
         {
             get
             {
-                return data[index];
+                return _csvRecords[index];
             }
         }
 
@@ -27,25 +24,35 @@ namespace CSVReader
         {
             get
             {
-                return data[index];
+                return _csvRecords[index];
             }
         }
 
         public CsvEnumerable(string path)
         {
-            T value;
-            using (TextReader fileReader = File.OpenText(path))
+            try
             {
-                using (var csv = new CsvReader(fileReader, CultureInfo.InvariantCulture))
+                using (var fileReader = File.OpenText(path))
                 {
-                   while (csv.Read())
+                    using (var csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture))
                     {
-                        for (int i=0; csv.TryGetField<T>(i, out value); i++)
+                        while (csvReader.Read())
                         {
-                            data.Add(value);
+                            for (int i = 0; csvReader.TryGetField<T>(i, out T value); i++)
+                            {
+                                _csvRecords.Add(value);
+                            }
                         }
                     }
                 }
+            }
+            catch (FileNotFoundException exception)
+            {
+                Console.WriteLine($"File not found with exception: {exception.Message}");
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine($"Exception: {exception.Message}");
             }
         }
 
@@ -62,7 +69,7 @@ namespace CSVReader
         bool IEnumerator.MoveNext()
         {
             index++;
-            return index < data.Count;
+            return index < _csvRecords.Count;
         }
 
         void IEnumerator.Reset()
@@ -70,8 +77,7 @@ namespace CSVReader
             index = -1;
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false; // Для определения избыточных вызовов
+        private bool disposedValue = false; 
 
         protected virtual void Dispose(bool disposing)
         {
@@ -79,30 +85,16 @@ namespace CSVReader
             {
                 if (disposing)
                 {
-                    // TODO: освободить управляемое состояние (управляемые объекты).
+                    _csvRecords.Clear();
                 }
-
-                // TODO: освободить неуправляемые ресурсы (неуправляемые объекты) и переопределить ниже метод завершения.
-                // TODO: задать большим полям значение NULL.
 
                 disposedValue = true;
             }
         }
 
-        // TODO: переопределить метод завершения, только если Dispose(bool disposing) выше включает код для освобождения неуправляемых ресурсов.
-        // ~CsvEnumerable() {
-        //   // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
-        //   Dispose(false);
-        // }
-
-        // Этот код добавлен для правильной реализации шаблона высвобождаемого класса.
         void IDisposable.Dispose()
         {
-            // Не изменяйте этот код. Разместите код очистки выше, в методе Dispose(bool disposing).
             Dispose(true);
-            // TODO: раскомментировать следующую строку, если метод завершения переопределен выше.
-            // GC.SuppressFinalize(this);
         }
-        #endregion
     }
 }

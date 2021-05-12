@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CSVReader
+namespace EnumerableCsv
 {
     class Program
     {
         static void Main(string[] args)
         {
-            CsvEnumerable<string> se = new CsvEnumerable<string>(@"D:\ITechArt\CSVEnumerable\CSVReader\myFile.csv");
-            foreach(var t in se)
+            CsvEnumerable<string> csvRecords = new CsvEnumerable<string>(@"../../myFile.csv");
+            foreach(var t in csvRecords)
             {
                 Console.WriteLine(t.ToString());
             }
