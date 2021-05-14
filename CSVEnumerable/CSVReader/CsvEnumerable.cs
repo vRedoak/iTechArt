@@ -7,7 +7,7 @@ using System.IO;
 
 namespace EnumerableCsv
 {
-    class CsvEnumerable<T> : IEnumerable<T>, IEnumerator<T>
+    class CsvEnumerable<T> : IEnumerable<T>, IEnumerator<T> where T : ICanReadCsvFiles, new()
     {
         private int _index = -1;
         private List<T> _csvRecords = new List<T>();
@@ -17,7 +17,7 @@ namespace EnumerableCsv
 
         object IEnumerator.Current => _csvRecords[_index];
 
-        public CsvEnumerable(string path)
+        public CsvEnumerable(string path, params char[] separator)
         {
             try
             {
@@ -27,9 +27,11 @@ namespace EnumerableCsv
                     {
                         while (csvReader.Read())
                         {
-                            for (var i = 0; csvReader.TryGetField<T>(i, out var value); i++)
+                            for (var i = 0; csvReader.TryGetField<string>(i, out var value); i++)
                             {
-                                _csvRecords.Add(value);
+                                var csvRecord = new T();
+                                csvRecord.FieldsInitialization(value.Split(separator));
+                                _csvRecords.Add(csvRecord);
                             }
                         }
                     }
