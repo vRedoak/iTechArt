@@ -7,26 +7,15 @@ using System.IO;
 
 namespace EnumerableCsv
 {
-    class CsvEnumerable<T> : IEnumerable<T>, IEnumerator<T>, IDisposable
+    class CsvEnumerable<T> : IEnumerable<T>, IEnumerator<T>
     {
-        private int index = -1;
-        readonly List<T> _csvRecords = new List<T>();
+        private int _index = -1;
+        private List<T> _csvRecords = new List<T>();
+        private bool _disposedValue;
 
-        T IEnumerator<T>.Current
-        {
-            get
-            {
-                return _csvRecords[index];
-            }
-        }
+        T IEnumerator<T>.Current => _csvRecords[_index];
 
-        object IEnumerator.Current
-        {
-            get
-            {
-                return _csvRecords[index];
-            }
-        }
+        object IEnumerator.Current => _csvRecords[_index];
 
         public CsvEnumerable(string path)
         {
@@ -38,7 +27,7 @@ namespace EnumerableCsv
                     {
                         while (csvReader.Read())
                         {
-                            for (int i = 0; csvReader.TryGetField<T>(i, out T value); i++)
+                            for (var i = 0; csvReader.TryGetField<T>(i, out var value); i++)
                             {
                                 _csvRecords.Add(value);
                             }
@@ -61,6 +50,24 @@ namespace EnumerableCsv
             return this;
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    this._csvRecords = null;
+                }
+                _disposedValue = true;
+            }
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this;
@@ -68,33 +75,13 @@ namespace EnumerableCsv
 
         bool IEnumerator.MoveNext()
         {
-            index++;
-            return index < _csvRecords.Count;
+            _index++;
+            return _index < _csvRecords.Count;
         }
 
         void IEnumerator.Reset()
         {
-            index = -1;
-        }
-
-        private bool disposedValue = false; 
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    _csvRecords.Clear();
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        void IDisposable.Dispose()
-        {
-            Dispose(true);
+            _index = -1;
         }
     }
 }

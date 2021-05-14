@@ -6,10 +6,10 @@ namespace EnumerableCsv
     {
         static void Main(string[] args)
         {
-            CsvEnumerable<string> csvRecords = new CsvEnumerable<string>(@"../../myFile.csv");
-            foreach(var t in csvRecords)
+            var csvRecords = new CsvEnumerable<string>(@"../../myFile.csv");
+            foreach (var csvRecord in csvRecords)
             {
-                Console.WriteLine(t.ToString());
+                Console.WriteLine(csvRecord);
             }
             Console.Read();
         }
