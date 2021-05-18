@@ -1,8 +1,6 @@
-﻿using System;
+﻿using FromCsvToDatabase.ReadCsv;
 using FromCsvToDatabase.Repository;
-using FromCsvToDatabase.ReadCsv;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using System;
 
 namespace FromCsvToDatabase
 {
