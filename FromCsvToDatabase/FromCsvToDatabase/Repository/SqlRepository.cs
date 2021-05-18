@@ -2,41 +2,49 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace FromCsvToDatabase.Repository
 {
-    public abstract class SqlRepository<T> : IRepository<T> where T : ContextObject
+    public abstract class SqlRepository<T> : IRepository<T>
     {
-        protected readonly string _connectionString;
         protected SqlConnection _sqlConnection;
+        private SqlDataReader _dataReader;
+        protected Logger _logger = new Logger(new LoggerProvider(), LoggerType.File);
+        private bool _disposedValue = false;
 
-        public SqlRepository(string connectionString)
-        {
-            _connectionString = connectionString;
-            _sqlConnection = new SqlConnection(_connectionString);
-            _sqlConnection.Open();
-        }
+        public SqlRepository(SqlConnection sqlConnection) => _sqlConnection = sqlConnection;
 
         public abstract void Create(T item);
 
+        public async void CreateAsync(T item) => await Task.Factory.StartNew(() => Create(item));
+
         public abstract void Delete(int id);
+
+        public async void DeleteAsync(int id) => await Task.Factory.StartNew(() => Delete(id));
 
         public abstract T Get(int id);
 
+        public async Task<T> GetAsync(int id) => await Task.Factory.StartNew(() => Get(id));
+
         public abstract IEnumerable<T> GetList();
 
+        public async Task<IEnumerable<T>> GetListAsync() => await Task.Factory.StartNew(() => GetList());
+
         public abstract void Update(T item);
+
+        public async void UpdateAsync(T item) => await Task.Factory.StartNew(() => Update(item));
 
         protected void SendRequestNonQuery(string command)
         {
             try
             {
                 using var sqlCommand = new SqlCommand(command, _sqlConnection);
-                var dataReader = sqlCommand.ExecuteNonQuery();
+                sqlCommand.ExecuteNonQuery();
             }
             catch (Exception exception)
             {
-                Console.WriteLine($"DataBase write error: {exception.Message}  Time: { DateTime.Now }");
+                _logger.Error($"Error while executing the request: {exception.Message}");
             }
         }
 
@@ -45,21 +53,21 @@ namespace FromCsvToDatabase.Repository
             try
             {
                 using var sqlCommand = new SqlCommand(command, _sqlConnection);
-                SqlDataReader dr = sqlCommand.ExecuteReader();
-                List<TRecords> result = new List<TRecords>();
-                if (dr.HasRows)
+                _dataReader = sqlCommand.ExecuteReader();
+                var result = new List<TRecords>();
+                if (_dataReader.HasRows)
                 {
                     var type = (new TRecords()).GetType();
                     FieldInfo[] fields = type.GetFields();
-                    while (dr.Read())
+                    while (_dataReader.Read())
                     {
                         TRecords records = new TRecords();
                         var properties = typeof(TRecords).GetFields(BindingFlags.Public | BindingFlags.Instance);
                         for (int i = 0; i < properties.Length; i++)
                         {
-                            if (dr[properties[i].Name] != null)
+                            if (_dataReader[properties[i].Name] != null)
                             {
-                                properties[i].SetValue(records, dr.GetValue(i)); 
+                                properties[i].SetValue(records, _dataReader.GetValue(i));
                             }
                         }
                         result.Add(records);
@@ -69,31 +77,32 @@ namespace FromCsvToDatabase.Repository
             }
             catch (Exception exception)
             {
-                Console.WriteLine($"DataBase write error: {exception.Message}  Time: { DateTime.Now }");
+                _logger.Error($"Error while executing the request: {exception.Message}");
                 return null;
             }
+            finally
+            {
+                _dataReader.Close();
+            }
         }
-
-
-
-        private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
-                    _sqlConnection.Close();
+                    _dataReader.DisposeAsync();
                 }
 
-                disposedValue = true;
+                _disposedValue = true;
             }
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
-            Dispose(true);
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

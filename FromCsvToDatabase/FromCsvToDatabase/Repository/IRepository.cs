@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FromCsvToDatabase.Repository
 {
-    interface IRepository<T> : IDisposable where T : ContextObject
+    interface IRepository<T> : IDisposable 
     {
         T Get(int id);
         IEnumerable<T> GetList();
