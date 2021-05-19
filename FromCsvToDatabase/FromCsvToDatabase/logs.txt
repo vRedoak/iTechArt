@@ -1,1 +1,45 @@
 
+Information: Request to add an animal object to the database Time: 5/19/2021 12:35:26 PM
+Information: Request to add an animal object to the database Time: 5/19/2021 12:35:26 PM
+Information: Request to add an animal object to the database Time: 5/19/2021 12:35:26 PM
+Information: Request to get animal objects from the database Time: 5/19/2021 12:35:26 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is open. Time: 5/19/2021 12:35:26 PM
+Information: Request to add an animal object to the database Time: 5/19/2021 12:36:31 PM
+Information: Request to add an animal object to the database Time: 5/19/2021 12:36:31 PM
+Information: Request to add an animal object to the database Time: 5/19/2021 12:36:31 PM
+Information: Request to get animal objects from the database Time: 5/19/2021 12:36:31 PM
+Information: Request to add an animal object to the database Time: 5/19/2021 12:37:56 PM
+Information: Request to add an animal object to the database Time: 5/19/2021 12:37:56 PM
+Information: Request to add an animal object to the database Time: 5/19/2021 12:37:56 PM
+Information: Request to get animal objects from the database Time: 5/19/2021 12:38:16 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 12:38:16 PM
+Information: Request to get animal objects from the database Time: 5/19/2021 12:39:50 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 12:39:50 PM
+Information: Request to get animal objects from the database Time: 5/19/2021 12:40:29 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 12:40:29 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 1:17:57 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 1:17:58 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 1:23:11 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 1:23:11 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 1:25:07 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 1:38:00 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 1:38:25 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 1:38:25 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 1:51:12 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 1:51:12 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:05:46 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:06:13 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 2:06:13 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:06:44 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:12:42 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:13:26 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:19:50 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:20:01 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 2:20:01 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:24:20 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 2:24:20 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:31:17 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:34:30 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:35:05 PM
+Information: Request to get worker objects from the database Time: 5/19/2021 2:44:42 PM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 2:44:42 PM

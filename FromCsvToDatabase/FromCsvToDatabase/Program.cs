@@ -10,16 +10,16 @@ namespace FromCsvToDatabase
         {
             string connectionString = @"Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = Zoo; Integrated Security = True; User Id = ICX\V.Krasnadubskaya";
             string filePath = @"../../../Animals.csv";
-            var unitOfWork = new UnitOfWork(connectionString);
+            using (var unitOfWork = new UnitOfWork(connectionString))
+            {
+                 WriteAnimalsFromCsvToDataBase(filePath, unitOfWork);
 
-            WriteAnimalsFromCsvToDataBase(filePath, unitOfWork);
-
-            GetWorkersFromDataBaseToConsole(unitOfWork);
-            Console.WriteLine("loading...");
-
+                //GetWorkersFromDataBaseToConsole(unitOfWork);
+                //Console.WriteLine("loading...");
+            }
+            Console.WriteLine("complite");
             Console.Read();
         }
-
 
         // a couple of methods to test work
         static void WriteAnimalsFromCsvToDataBase(string csvFilePath, UnitOfWork unitOfWork)
