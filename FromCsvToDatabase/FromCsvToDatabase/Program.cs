@@ -1,6 +1,8 @@
 ﻿using FromCsvToDatabase.ReadCsv;
 using FromCsvToDatabase.Repository;
 using System;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace FromCsvToDatabase
 {
@@ -8,14 +10,15 @@ namespace FromCsvToDatabase
     {
         static void Main(string[] args)
         {
-            string connectionString = @"Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = Zoo; Integrated Security = True; User Id = ICX\V.Krasnadubskaya";
-            string filePath = @"../../../Animals.csv";
+            const string connectionString = @"Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = Zoo; Integrated Security = True; User Id = ICX\V.Krasnadubskaya";
+            const string filePath = @"../../../Animals.csv";
             using (var unitOfWork = new UnitOfWork(connectionString))
             {
-                 WriteAnimalsFromCsvToDataBase(filePath, unitOfWork);
+                // WriteAnimalsFromCsvToDataBase(filePath, unitOfWork);
 
-                //GetWorkersFromDataBaseToConsole(unitOfWork);
-                //Console.WriteLine("loading...");
+                var t= Task.Factory.StartNew(()=> GetWorkersFromDataBaseToConsole(unitOfWork));
+                // I am using Sleep because I cannot make the Main method asynchronous
+                Thread.Sleep(1000);
             }
             Console.WriteLine("complite");
             Console.Read();
@@ -30,11 +33,11 @@ namespace FromCsvToDatabase
             }
         }
 
-        static async void GetWorkersFromDataBaseToConsole(UnitOfWork unitOfWork)
+        static async Task  GetWorkersFromDataBaseToConsole(UnitOfWork unitOfWork)
         {
             var allWorkers = await unitOfWork.Workers.GetListAsync();
             foreach (var worker in allWorkers)
-                Console.WriteLine(worker.name);
+                Console.WriteLine(worker.Name);
         }
     }
 }

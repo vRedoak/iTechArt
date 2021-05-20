@@ -43,3 +43,45 @@ Information: Request to get worker objects from the database Time: 5/19/2021 2:3
 Information: Request to get worker objects from the database Time: 5/19/2021 2:35:05 PM
 Information: Request to get worker objects from the database Time: 5/19/2021 2:44:42 PM
 Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/19/2021 2:44:42 PM
+Information: Request to add an animal object to the database Time: 5/20/2021 9:37:28 AM
+Information: Request to add an animal object to the database Time: 5/20/2021 9:37:28 AM
+Information: Request to add an animal object to the database Time: 5/20/2021 9:37:28 AM
+Information: Request to add an animal object to the database Time: 5/20/2021 9:56:01 AM
+Information: Request to add an animal object to the database Time: 5/20/2021 9:56:01 AM
+Information: Request to add an animal object to the database Time: 5/20/2021 9:56:01 AM
+Information: Request to add an animal object to the database Time: 5/20/2021 9:56:46 AM
+Information: Request to add an animal object to the database Time: 5/20/2021 9:58:23 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 9:59:57 AM
+Error: Error while executing the request: ExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/20/2021 9:59:57 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 10:01:18 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 10:01:51 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 10:03:24 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 11:48:27 AM
+Error: Error while executing the request: Invalid attempt to call HasRows when reader is closed. Time: 5/20/2021 11:48:27 AM
+Error: Error getting a list of workers: Invalid attempt to call HasRows when reader is closed. Time: 5/20/2021 11:48:27 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 11:53:25 AM
+Error: Error while executing the request: Invalid attempt to call Read when reader is closed. Time: 5/20/2021 11:53:25 AM
+Error: Error getting a list of workers: Invalid attempt to call Read when reader is closed. Time: 5/20/2021 11:53:25 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 11:53:43 AM
+Error: Error while executing the request: Invalid attempt to call Read when reader is closed. Time: 5/20/2021 11:53:43 AM
+Error: Error getting a list of workers: Invalid attempt to call Read when reader is closed. Time: 5/20/2021 11:53:43 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 11:54:44 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 11:55:22 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 11:55:48 AM
+Error: Error while executing the request: BeginExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/20/2021 11:55:48 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 11:58:40 AM
+Error: Error while executing the request: Invalid attempt to call HasRows when reader is closed. Time: 5/20/2021 11:58:40 AM
+Error: Error getting a list of workers: Invalid attempt to call HasRows when reader is closed. Time: 5/20/2021 11:58:40 AM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:04:22 PM
+Error: Error while executing the request: Invalid attempt to call Read when reader is closed. Time: 5/20/2021 12:04:22 PM
+Error: Error getting a list of workers: Invalid attempt to call Read when reader is closed. Time: 5/20/2021 12:04:22 PM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:06:06 PM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:06:18 PM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:06:38 PM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:07:32 PM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:07:48 PM
+Error: Error while executing the request: BeginExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/20/2021 12:07:48 PM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:08:05 PM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:08:47 PM
+Error: Error while executing the request: BeginExecuteReader requires an open and available Connection. The connection's current state is closed. Time: 5/20/2021 12:08:47 PM
+Information: Request to get worker objects from the database Time: 5/20/2021 12:08:56 PM
