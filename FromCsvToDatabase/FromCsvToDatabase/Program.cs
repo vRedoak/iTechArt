@@ -8,7 +8,7 @@ namespace FromCsvToDatabase
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             const string connectionString = @"Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = Zoo; Integrated Security = True; User Id = ICX\V.Krasnadubskaya";
             const string filePath = @"../../../Animals.csv";

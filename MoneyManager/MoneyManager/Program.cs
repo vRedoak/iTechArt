@@ -6,7 +6,13 @@ namespace MoneyManager
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            using (var uof = new UnitOfWork())
+            {
+                uof.Service.GetUserBalance(5);
+                uof.Service.UserRepository.Delete(5);
+                uof.Service.TransactionRepository.GetList();
+            }
+            
         }
     }
 }
