@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MoneyManager.Repositories
 {
@@ -17,12 +15,14 @@ namespace MoneyManager.Repositories
 
         public void Create(Transaction item)
         {
-            throw new NotImplementedException();
+            db.Transactions.Add(item);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Transaction transaction = db.Transactions.Find(id);
+            if (transaction != null)
+                db.Transactions.Remove(transaction);
         }
 
         public void Dispose()
@@ -30,24 +30,20 @@ namespace MoneyManager.Repositories
             throw new NotImplementedException();
         }
 
-        public Transaction Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Transaction> GetList()
         {
-            throw new NotImplementedException();
+            return db.Transactions;
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            db.SaveChanges();
         }
 
         public void Update(Transaction item)
         {
-            throw new NotImplementedException();
+            db.Transactions.Update(item);
+            db.Entry(item).State = EntityState.Modified;
         }
     }
 }

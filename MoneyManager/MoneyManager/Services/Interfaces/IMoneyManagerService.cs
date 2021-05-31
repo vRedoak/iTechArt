@@ -8,10 +8,7 @@ namespace MoneyManager.Services
 {
     public interface IMoneyManagerService
     {
-        IUserRepository UserRepository { get; }
-        IAssetRepository AssetRepository { get; }
-        ITransactionRepository TransactionRepository { get; }
-        ICategoryRepository CategoryRepository { get; }
         List<object> GetUserBalance(int userId);
+        void DeleteAllTransactionInMonth(int userID);
     }
 }

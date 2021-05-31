@@ -9,16 +9,38 @@ namespace MoneyManager
     class MoneyManagerContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<User> Assets { get; set; }
+        public DbSet<Asset> Assets { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Category> Categories { get; set; }
 
         public MoneyManagerContext()
         {
-           if (Database.EnsureCreated())
+           // Database.EnsureDeleted();
+            if (Database.EnsureCreated())
             {
-                //script to add data
+                using (var transaction = Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var xmlReader = new XmlReader();
+                        Users.AddRange(xmlReader.Read<User>("users.xml"));
+                        SaveChanges();
+                        Assets.AddRange(xmlReader.Read<Asset>("assets.xml"));
+                        SaveChanges();
+                        Categories.AddRange(xmlReader.Read<Category>("categories.xml"));
+                        SaveChanges();
+                        Transactions.AddRange(xmlReader.Read<Transaction>("transactions.xml"));
+                        SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                    }
+                }
+
             }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,7 +61,8 @@ namespace MoneyManager
 
             foreach (var entityEntry in entries)
             {
-                entityEntry.Property("Date").CurrentValue = DateTime.Now;
+                if (entityEntry.CurrentValues.EntityType == typeof(Transaction))
+                    entityEntry.Property("Date").CurrentValue = DateTime.Now;
             }
             return base.SaveChanges();
         }

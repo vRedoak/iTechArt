@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,12 +18,14 @@ namespace MoneyManager.Repositories
 
         public void Create(Category item)
         {
-            throw new NotImplementedException();
+            db.Categories.Add(item);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Category category = db.Categories.Find(id);
+            if (category != null)
+                db.Categories.Remove(category);
         }
 
         public void Dispose()
@@ -30,24 +33,20 @@ namespace MoneyManager.Repositories
             throw new NotImplementedException();
         }
 
-        public Category Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Category> GetList()
         {
-            throw new NotImplementedException();
+            return db.Categories;
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            db.SaveChanges();
         }
 
         public void Update(Category item)
         {
-            throw new NotImplementedException();
+            db.Categories.Update(item);
+            db.Entry(item).State = EntityState.Modified;
         }
     }
 }

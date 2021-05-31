@@ -8,7 +8,6 @@ namespace MoneyManager.Repositories
 {
     public interface IRepository<T>: IDisposable
     {
-        T Get(int id);
         IEnumerable<T> GetList();
         void Create(T item);
         void Update(T item);

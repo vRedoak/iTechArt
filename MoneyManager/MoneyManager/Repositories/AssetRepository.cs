@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace MoneyManager.Repositories
@@ -17,12 +17,14 @@ namespace MoneyManager.Repositories
 
         public void Create(Asset item)
         {
-            throw new NotImplementedException();
+            db.Assets.Add(item);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Asset asset = db.Assets.Find(id);
+            if (asset != null)
+                db.Assets.Remove(asset);
         }
 
         public void Dispose()
@@ -30,24 +32,20 @@ namespace MoneyManager.Repositories
             throw new NotImplementedException();
         }
 
-        public Asset Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Asset> GetList()
         {
-            throw new NotImplementedException();
+            return db.Assets;
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            db.SaveChanges();
         }
 
         public void Update(Asset item)
         {
-            throw new NotImplementedException();
+            db.Assets.Update(item);
+            db.Entry(item).State = EntityState.Modified;
         }
     }
 }

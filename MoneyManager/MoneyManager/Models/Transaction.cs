@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
 namespace MoneyManager
 {
     public class Transaction
     {
+        [XmlIgnore]
         public int Id { get; set; }
         
         [Required]
