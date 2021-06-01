@@ -15,31 +15,31 @@ namespace MoneyManager
 
         public MoneyManagerContext()
         {
-            Database.EnsureDeleted();
-            if (Database.EnsureCreated())
-            {
-                using (var transaction = Database.BeginTransaction())
-                {
-                    try
-                    {
-                        var xmlReader = new XmlReader();
-                        Users.AddRange(xmlReader.Read<User>("users.xml"));
-                        SaveChanges();
-                        Assets.AddRange(xmlReader.Read<Asset>("assets.xml"));
-                        SaveChanges();
-                        Categories.AddRange(xmlReader.Read<Category>("categories.xml"));
-                        SaveChanges();
-                        Transactions.AddRange(xmlReader.Read<Transaction>("transactions.xml"));
-                        SaveChanges();
-                        transaction.Commit();
-                    }
-                    catch
-                    {
-                        transaction.Rollback();
-                    }
-                }
+           // Database.EnsureDeleted();
+           // if (Database.EnsureCreated())
+            //{
+            //    using (var transaction = Database.BeginTransaction())
+            //    {
+            //        try
+            //        {
+            //            var xmlReader = new XmlReader();
+            //            Users.AddRange(xmlReader.Read<User>("users.xml"));
+            //            SaveChanges();
+            //            Assets.AddRange(xmlReader.Read<Asset>("assets.xml"));
+            //            SaveChanges();
+            //            Categories.AddRange(xmlReader.Read<Category>("categories.xml"));
+            //            SaveChanges();
+            //            Transactions.AddRange(xmlReader.Read<Transaction>("transactions.xml"));
+            //            SaveChanges();
+            //            transaction.Commit();
+            //        }
+            //        catch
+            //        {
+            //            transaction.Rollback();
+            //        }
+            //    }
 
-            }
+            //}
 
         }
 

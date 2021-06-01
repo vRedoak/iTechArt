@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoneyManager.Repositories
 {
     class UserRepository : IRepository<User>, IUserRepository
     {
-        private MoneyManagerContext db;
+        private readonly MoneyManagerContext db;
 
         public UserRepository(MoneyManagerContext context)
         {
@@ -33,14 +29,9 @@ namespace MoneyManager.Repositories
 
         public void Delete(int id)
         {
-            User user = db.Users.Find(id);
+            var user = db.Users.Find(id);
             if (user != null)
                 db.Users.Remove(user);
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<User> GetList()
@@ -56,7 +47,6 @@ namespace MoneyManager.Repositories
         public void Update(User item)
         {
             db.Users.Update(item);
-            db.Entry(item).State = EntityState.Modified;
         }
     }
 }

@@ -1,15 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoneyManager.Repositories
 {
     class CategoryRepository:IRepository<Category>, ICategoryRepository
     {
-        private MoneyManagerContext db;
+        private readonly MoneyManagerContext db;
 
         public CategoryRepository(MoneyManagerContext context)
         {
@@ -23,14 +19,9 @@ namespace MoneyManager.Repositories
 
         public void Delete(int id)
         {
-            Category category = db.Categories.Find(id);
+            var category = db.Categories.Find(id);
             if (category != null)
                 db.Categories.Remove(category);
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Category> GetList()

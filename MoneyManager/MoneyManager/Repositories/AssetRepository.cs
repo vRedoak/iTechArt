@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace MoneyManager.Repositories
 {
     class AssetRepository : IRepository<Asset>, IAssetRepository
     {
-        private MoneyManagerContext db;
+        private readonly MoneyManagerContext db;
 
         public AssetRepository(MoneyManagerContext context)
         {
@@ -22,14 +19,9 @@ namespace MoneyManager.Repositories
 
         public void Delete(int id)
         {
-            Asset asset = db.Assets.Find(id);
+            var asset = db.Assets.Find(id);
             if (asset != null)
                 db.Assets.Remove(asset);
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Asset> GetList()
@@ -45,7 +37,6 @@ namespace MoneyManager.Repositories
         public void Update(Asset item)
         {
             db.Assets.Update(item);
-            db.Entry(item).State = EntityState.Modified;
         }
     }
 }

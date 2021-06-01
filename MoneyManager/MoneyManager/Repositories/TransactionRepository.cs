@@ -6,7 +6,7 @@ namespace MoneyManager.Repositories
 {
     class TransactionRepository : IRepository<Transaction>, ITransactionRepository
     {
-        private MoneyManagerContext db;
+        private readonly MoneyManagerContext db;
 
         public TransactionRepository(MoneyManagerContext context)
         {
@@ -20,14 +20,9 @@ namespace MoneyManager.Repositories
 
         public void Delete(int id)
         {
-            Transaction transaction = db.Transactions.Find(id);
+            var transaction = db.Transactions.Find(id);
             if (transaction != null)
                 db.Transactions.Remove(transaction);
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Transaction> GetList()

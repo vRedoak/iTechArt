@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-using MoneyManager.Repositories;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MoneyManager.Services
 {
@@ -13,5 +10,7 @@ namespace MoneyManager.Services
         void Update(User item);
         void Remove(int id);
         void Save();
+        User GetUser(int id);
+        User GetUser(string email);
     }
 }

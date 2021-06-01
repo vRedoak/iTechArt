@@ -1,7 +1,6 @@
-﻿using System;
+﻿using MoneyManager.Repositories;
 using System.Collections.Generic;
 using System.Linq;
-using MoneyManager.Repositories;
 
 namespace MoneyManager.Services
 {
@@ -16,32 +15,74 @@ namespace MoneyManager.Services
 
         public Asset GetAsset(int id)
         {
-            return _assetRepository.GetList().Where(x => x.Id == id).FirstOrDefault();
+            try
+            {
+                return _assetRepository.GetList().Where(x => x.Id == id).FirstOrDefault();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void Add(Asset asset)
         {
-            _assetRepository.Create(asset);
+            try
+            {
+                _assetRepository.Create(asset);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void Remove(int id)
         {
-            _assetRepository.Delete(id);
+            try
+            {
+                _assetRepository.Delete(id);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void Update(Asset asset)
         {
-            _assetRepository.Update(asset);
+            try
+            {
+                _assetRepository.Update(asset);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public IEnumerable<Asset> GetList()
         {
-            return _assetRepository.GetList();
+            try
+            {
+                return _assetRepository.GetList();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void Save()
         {
-            _assetRepository.Save();
+            try
+            {
+                _assetRepository.Save();
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

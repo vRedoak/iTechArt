@@ -1,8 +1,6 @@
-﻿using System;
+﻿using MoneyManager.Repositories;
 using System.Collections.Generic;
 using System.Linq;
-using MoneyManager.Repositories;
-using System.Threading.Tasks;
 
 namespace MoneyManager.Services
 {
@@ -17,32 +15,56 @@ namespace MoneyManager.Services
 
         public Transaction GetTransaction(int id)
         {
-            return _transactionRepository.GetList().Where(x => x.Id == id).FirstOrDefault();
+            try
+            {
+                return _transactionRepository.GetList().Where(x => x.Id == id).FirstOrDefault();
+            }
+            catch { throw; }
         }
 
         public void Add(Transaction transaction)
         {
-            _transactionRepository.Create(transaction);
+            try
+            {
+                _transactionRepository.Create(transaction);
+            }
+            catch { throw; }
         }
 
         public void Remove(int id)
         {
-            _transactionRepository.Delete(id);
+            try
+            {
+                _transactionRepository.Delete(id);
+            }
+            catch { throw; }
         }
 
         public void Update(Transaction transaction)
         {
-            _transactionRepository.Update(transaction);
+            try
+            {
+                _transactionRepository.Update(transaction);
+            }
+            catch { throw; }
         }
 
         public IEnumerable<Transaction> GetList()
         {
-            return _transactionRepository.GetList();
+            try
+            {
+                return _transactionRepository.GetList();
+            }
+            catch { throw; }
         }
 
         public void Save()
         {
-            _transactionRepository.Save();
+            try
+            {
+                _transactionRepository.Save();
+            }
+            catch { throw; }
         }
     }
 }

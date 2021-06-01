@@ -1,13 +1,10 @@
-﻿using System;
+﻿using MoneyManager.Repositories;
 using System.Collections.Generic;
 using System.Linq;
-using MoneyManager.Repositories;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoneyManager.Services
 {
-    class CategoryService: ICategoryService
+    class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
 
@@ -18,32 +15,59 @@ namespace MoneyManager.Services
 
         public Category GetCategory(int id)
         {
-            return _categoryRepository.GetList().Where(x => x.Id == id).FirstOrDefault();
+            try
+            {
+                return _categoryRepository.GetList().Where(x => x.Id == id).FirstOrDefault();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public void Add(Category category)
         {
-            _categoryRepository.Create(category);
+            try
+            {
+                _categoryRepository.Create(category);
+            }
+            catch { throw; }
         }
 
         public void Remove(int id)
         {
-            _categoryRepository.Delete(id);
+            try
+            {
+                _categoryRepository.Delete(id);
+            }
+            catch { throw; }
         }
 
         public void Update(Category category)
         {
-            _categoryRepository.Update(category);
+            try
+            {
+                _categoryRepository.Update(category);
+            }
+            catch { throw; }
         }
 
         public IEnumerable<Category> GetList()
         {
-            return _categoryRepository.GetList();
+            try
+            {
+                return _categoryRepository.GetList();
+            }
+            catch { throw; }
         }
 
         public void Save()
         {
-            _categoryRepository.Save();
+            try
+            {
+                _categoryRepository.Save();
+            }
+            catch { throw; }
         }
     }
 }

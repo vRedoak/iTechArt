@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MoneyManager
+﻿namespace MoneyManager
 {
     class Encryption
     {
@@ -33,7 +27,7 @@ namespace MoneyManager
             var retValue = "";
             var q = letters.Length;
 
-            for (int i = 0; i < text.Length; i++)
+            for (var i = 0; i < text.Length; i++)
             {
                 var letterIndex = letters.IndexOf(text[i]);
                 var codeIndex = letters.IndexOf(gamma[i]);

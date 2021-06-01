@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MoneyManager.Repositories;
 using MoneyManager.Services;
-using MoneyManager.Repositories;
+using System;
 
 namespace MoneyManager
 {
     public class UnitOfWork : IDisposable
     {
-        private MoneyManagerContext db = new MoneyManagerContext();
+        private readonly MoneyManagerContext db = new();
         private IMoneyManagerService _moneyManagerService;
         private IUserService _userService;
         private IAssetService _assetService;
@@ -22,26 +18,12 @@ namespace MoneyManager
         private ICategoryRepository _categoryRepository;
         private bool disposedValue;
 
-        public IMoneyManagerService Service
-        {
-            get
-            {
-                if (_moneyManagerService == null)
-                    _moneyManagerService = new MoneyManagerService(
-                                                                    new UserRepository(db),
-                                                                    new AssetRepository(db),
-                                                                    new TransactionRepository(db),
-                                                                    new CategoryRepository(db));
-                return _moneyManagerService;
-            }
-        }
-
         public IUserService UserService
         {
             get
             {
                 if (_userService == null)
-                    _userService = new UserService(userRepository);
+                    _userService = new UserService(UserRepository);
                 return _userService;
             }
         }
@@ -51,7 +33,7 @@ namespace MoneyManager
             get
             {
                 if (_assetService == null)
-                    _assetService = new AssetService(assetRepository);
+                    _assetService = new AssetService(AssetRepository);
                 return _assetService;
             }
         }
@@ -61,7 +43,7 @@ namespace MoneyManager
             get
             {
                 if (_transactionService == null)
-                    _transactionService = new  TransactionService(transactionRepository);
+                    _transactionService = new TransactionService(TransactionRepository);
                 return _transactionService;
             }
         }
@@ -71,7 +53,7 @@ namespace MoneyManager
             get
             {
                 if (_categoryService == null)
-                    _categoryService = new CategoryService(categoryRepository);
+                    _categoryService = new CategoryService(CategoryRepository);
                 return _categoryService;
             }
         }
@@ -81,12 +63,12 @@ namespace MoneyManager
             get
             {
                 if (_moneyManagerService == null)
-                    _moneyManagerService = new MoneyManagerService(userRepository,assetRepository,transactionRepository, categoryRepository);
+                    _moneyManagerService = new MoneyManagerService(UserRepository, AssetRepository, TransactionRepository, CategoryRepository);
                 return _moneyManagerService;
             }
         }
 
-        private IUserRepository userRepository
+        private IUserRepository UserRepository
         {
             get
             {
@@ -96,7 +78,7 @@ namespace MoneyManager
             }
         }
 
-        private IAssetRepository assetRepository
+        private IAssetRepository AssetRepository
         {
             get
             {
@@ -106,7 +88,7 @@ namespace MoneyManager
             }
         }
 
-        private ITransactionRepository transactionRepository
+        private ITransactionRepository TransactionRepository
         {
             get
             {
@@ -116,7 +98,7 @@ namespace MoneyManager
             }
         }
 
-        private ICategoryRepository categoryRepository
+        private ICategoryRepository CategoryRepository
         {
             get
             {
@@ -137,6 +119,7 @@ namespace MoneyManager
             {
                 if (disposing)
                 {
+                    db.Dispose();
                 }
                 disposedValue = true;
             }
