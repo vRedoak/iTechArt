@@ -134,7 +134,7 @@ namespace MoneyManager.Services
                 {
                     TotalIncome = GetUserTransactionsByType(userId, 1).Where(x => DateCompare(_transactionRepository.GetDate(x), startDate, endDate)).ToList().Sum(x => x.Amount),
                     TotalExpenses = GetUserTransactionsByType(userId, 0).Where(x => DateCompare(_transactionRepository.GetDate(x), startDate, endDate)).ToList().Sum(x => x.Amount),
-                    Month = from date in dates
+                    Monthly = from date in dates
                             select new
                             {
                                 MonthName = date[0].ToString("MMMM", new CultureInfo("ru-RU")),

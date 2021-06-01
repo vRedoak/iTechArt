@@ -16,6 +16,7 @@ namespace MoneyManager
                 var request4 = uof.MoneyManagerService.GetUserTransactionWithSort(2);
                 var request5 = uof.MoneyManagerService.GetUserIncomeAndExpenses(2, new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), DateTime.Now.AddMonths(2));
                 var request6 = uof.MoneyManagerService.GetCategoryBalance(2, Services.OperationType.Expenses);
+                Console.ReadLine();
             }
         }
     }
