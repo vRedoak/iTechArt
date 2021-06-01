@@ -15,6 +15,16 @@ namespace MoneyManager.Repositories
         {
             db = context;
         }
+        public User GetUser(int id)
+        {
+            return GetList().Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public User GetUser(string email)
+        {
+            return GetList().Where(x => x.Email == email).FirstOrDefault();
+        }
+
 
         public void Create(User item)
         {

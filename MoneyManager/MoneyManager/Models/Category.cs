@@ -20,5 +20,7 @@ namespace MoneyManager
         public int? ParentId { get; set; }
 
         public Category Parent { get; set; }
+
+        public List<Category> Categories { get; set; }
     }
 }

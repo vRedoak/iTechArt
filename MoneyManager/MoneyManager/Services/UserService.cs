@@ -15,15 +15,12 @@ namespace MoneyManager.Services
         {
             _userRepository = userRepository;
         }
-
-        public User GetUser(int id)
+       
+        public IEnumerable<object> SortByName()
         {
-            return _userRepository.GetList().Where(x => x.Id == id).FirstOrDefault();
-        }
-
-        public User GetUser(string email)
-        {
-            return _userRepository.GetList().Where(x => x.Email == email).FirstOrDefault();
+            return (from user in _userRepository.GetList()
+                   orderby user.Name
+                   select new { Id = user.Id, Name = user.Name, Email = user.Email }).ToList<object>();
         }
 
         public void Add(User user)

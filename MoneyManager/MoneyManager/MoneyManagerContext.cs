@@ -15,7 +15,7 @@ namespace MoneyManager
 
         public MoneyManagerContext()
         {
-           // Database.EnsureDeleted();
+            Database.EnsureDeleted();
             if (Database.EnsureCreated())
             {
                 using (var transaction = Database.BeginTransaction())
@@ -58,11 +58,16 @@ namespace MoneyManager
             var entries = ChangeTracker
                 .Entries()
                 .Where(e => e.State == EntityState.Added);
-
             foreach (var entityEntry in entries)
             {
-                if (entityEntry.CurrentValues.EntityType == typeof(Transaction))
+                if (entityEntry.CurrentValues.EntityType.ClrType == new Transaction().GetType())
                     entityEntry.Property("Date").CurrentValue = DateTime.Now;
+                if (entityEntry.CurrentValues.EntityType.ClrType == new User().GetType())
+                {
+                    var encryption = new Encryption();
+                    entityEntry.Property("Hash").CurrentValue = encryption.Encrypt(entityEntry.Property("Salt").CurrentValue.ToString(), entityEntry.Property("Hash").CurrentValue.ToString());
+                }
+                    
             }
             return base.SaveChanges();
         }

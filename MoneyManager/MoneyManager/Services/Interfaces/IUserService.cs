@@ -7,8 +7,7 @@ namespace MoneyManager.Services
 {
     public interface IUserService
     {
-        User GetUser(int id);
-        User GetUser(string email);
+        IEnumerable<object> SortByName();
         IEnumerable<User> GetList();
         void Add(User item);
         void Update(User item);

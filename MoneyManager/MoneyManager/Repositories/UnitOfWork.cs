@@ -16,6 +16,10 @@ namespace MoneyManager
         private IAssetService _assetService;
         private ICategoryService _categoryService;
         private ITransactionService _transactionService;
+        private IUserRepository _userRepository;
+        private IAssetRepository _assetRepository;
+        private ITransactionRepository _transactionRepository;
+        private ICategoryRepository _categoryRepository;
         private bool disposedValue;
 
         public IMoneyManagerService Service
@@ -37,7 +41,7 @@ namespace MoneyManager
             get
             {
                 if (_userService == null)
-                    _userService = new UserService(new UserRepository(db));
+                    _userService = new UserService(userRepository);
                 return _userService;
             }
         }
@@ -47,7 +51,7 @@ namespace MoneyManager
             get
             {
                 if (_assetService == null)
-                    _assetService = new AssetService(new AssetRepository(db));
+                    _assetService = new AssetService(assetRepository);
                 return _assetService;
             }
         }
@@ -57,7 +61,7 @@ namespace MoneyManager
             get
             {
                 if (_transactionService == null)
-                    _transactionService = new  TransactionService(new TransactionRepository(db));
+                    _transactionService = new  TransactionService(transactionRepository);
                 return _transactionService;
             }
         }
@@ -67,7 +71,7 @@ namespace MoneyManager
             get
             {
                 if (_categoryService == null)
-                    _categoryService = new CategoryService(new CategoryRepository(db));
+                    _categoryService = new CategoryService(categoryRepository);
                 return _categoryService;
             }
         }
@@ -77,8 +81,48 @@ namespace MoneyManager
             get
             {
                 if (_moneyManagerService == null)
-                    _moneyManagerService = new MoneyManagerService(new UserRepository(db),new AssetRepository(db),new TransactionRepository(db), new CategoryRepository(db));
+                    _moneyManagerService = new MoneyManagerService(userRepository,assetRepository,transactionRepository, categoryRepository);
                 return _moneyManagerService;
+            }
+        }
+
+        private IUserRepository userRepository
+        {
+            get
+            {
+                if (_userRepository == null)
+                    _userRepository = new UserRepository(db);
+                return _userRepository;
+            }
+        }
+
+        private IAssetRepository assetRepository
+        {
+            get
+            {
+                if (_assetRepository == null)
+                    _assetRepository = new AssetRepository(db);
+                return _assetRepository;
+            }
+        }
+
+        private ITransactionRepository transactionRepository
+        {
+            get
+            {
+                if (_transactionRepository == null)
+                    _transactionRepository = new TransactionRepository(db);
+                return _transactionRepository;
+            }
+        }
+
+        private ICategoryRepository categoryRepository
+        {
+            get
+            {
+                if (_categoryRepository == null)
+                    _categoryRepository = new CategoryRepository(db);
+                return _categoryRepository;
             }
         }
 

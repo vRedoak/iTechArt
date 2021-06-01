@@ -45,5 +45,10 @@ namespace MoneyManager.Repositories
             db.Transactions.Update(item);
             db.Entry(item).State = EntityState.Modified;
         }
+
+        public DateTime GetDate(Transaction transaction)
+        {
+            return (DateTime)db.Entry(transaction).Property("Date").CurrentValue;
+        }
     }
 }
