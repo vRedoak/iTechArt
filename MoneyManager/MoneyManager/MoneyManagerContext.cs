@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoneyManager.Models;
 using System;
 using System.Linq;
 
@@ -13,7 +14,6 @@ namespace MoneyManager
 
         public MoneyManagerContext()
         {
-            Database.EnsureDeleted();
             if (Database.EnsureCreated())
             {
                 using (var transaction = Database.BeginTransaction())

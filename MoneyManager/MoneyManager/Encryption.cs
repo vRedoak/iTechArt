@@ -1,4 +1,6 @@
-﻿namespace MoneyManager
+﻿using System.Text;
+
+namespace MoneyManager
 {
     class Encryption
     {
@@ -10,21 +12,20 @@
             letters = string.IsNullOrEmpty(alphabet) ? defaultAlphabet : alphabet;
         }
 
-        private string GetRepeatKey(string s, int n)
+        private static string GetRepeatKey(string s, int n)
         {
-            var p = s;
+            var p = new StringBuilder(s);
             while (p.Length < n)
             {
-                p += p;
+                p.Append(p);
             }
-
-            return p.Substring(0, n);
+            return p.ToString(0, n);
         }
 
         private string Vigenere(string text, string password, bool encrypting = true)
         {
             var gamma = GetRepeatKey(password, text.Length);
-            var retValue = "";
+            var retValue = new StringBuilder();
             var q = letters.Length;
 
             for (var i = 0; i < text.Length; i++)
@@ -33,15 +34,15 @@
                 var codeIndex = letters.IndexOf(gamma[i]);
                 if (letterIndex < 0)
                 {
-                    retValue += text[i].ToString();
+                    retValue.Append(text[i].ToString());
                 }
                 else
                 {
-                    retValue += letters[(q + letterIndex + ((encrypting ? 1 : -1) * codeIndex)) % q].ToString();
+                    retValue.Append(letters[(q + letterIndex + ((encrypting ? 1 : -1) * codeIndex)) % q].ToString());
                 }
             }
 
-            return retValue;
+            return retValue.ToString();
         }
 
         public string Encrypt(string plainMessage, string password)

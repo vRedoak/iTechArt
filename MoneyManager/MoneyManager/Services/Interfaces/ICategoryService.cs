@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MoneyManager.Models;
+using System.Collections.Generic;
 
 
 namespace MoneyManager.Services

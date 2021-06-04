@@ -1,42 +1,43 @@
-﻿using System;
+﻿using MoneyManager.Models;
+using System;
 using System.Collections.Generic;
 
 namespace MoneyManager.Repositories
 {
-    class AssetRepository : IRepository<Asset>, IAssetRepository
+    class AssetRepository : IAssetRepository
     {
-        private readonly MoneyManagerContext db;
+        private readonly MoneyManagerContext _db;
 
         public AssetRepository(MoneyManagerContext context)
         {
-            db = context;
+            _db = context;
         }
 
         public void Create(Asset item)
         {
-            db.Assets.Add(item);
+            _db.Assets.Add(item);
         }
 
         public void Delete(int id)
         {
-            var asset = db.Assets.Find(id);
+            var asset = _db.Assets.Find(id);
             if (asset != null)
-                db.Assets.Remove(asset);
+                _db.Assets.Remove(asset);
         }
 
         public IEnumerable<Asset> GetList()
         {
-            return db.Assets;
+            return _db.Assets;
         }
 
         public void Save()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
         }
 
         public void Update(Asset item)
         {
-            db.Assets.Update(item);
+            _db.Assets.Update(item);
         }
     }
 }

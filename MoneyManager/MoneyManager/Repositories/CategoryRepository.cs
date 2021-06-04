@@ -1,43 +1,54 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoneyManager.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MoneyManager.Repositories
 {
-    class CategoryRepository:IRepository<Category>, ICategoryRepository
+    class CategoryRepository : ICategoryRepository
     {
-        private readonly MoneyManagerContext db;
+        private readonly MoneyManagerContext _db;
 
         public CategoryRepository(MoneyManagerContext context)
         {
-            db = context;
+            _db = context;
         }
 
         public void Create(Category item)
         {
-            db.Categories.Add(item);
+            _db.Categories.Add(item);
+        }
+        public async Task CreateAsync(Category item)
+        {
+            await _db.Categories.AddAsync(item);
         }
 
         public void Delete(int id)
         {
-            var category = db.Categories.Find(id);
+            var category = _db.Categories.Find(id);
             if (category != null)
-                db.Categories.Remove(category);
+                _db.Categories.Remove(category);
         }
 
         public IEnumerable<Category> GetList()
         {
-            return db.Categories;
+            return _db.Categories;
         }
 
         public void Save()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _db.SaveChangesAsync();
         }
 
         public void Update(Category item)
         {
-            db.Categories.Update(item);
-            db.Entry(item).State = EntityState.Modified;
+            _db.Categories.Update(item);
+            _db.Entry(item).State = EntityState.Modified;
         }
     }
 }

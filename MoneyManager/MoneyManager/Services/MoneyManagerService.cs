@@ -1,4 +1,5 @@
-﻿using MoneyManager.Repositories;
+﻿using MoneyManager.Models;
+using MoneyManager.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,7 +7,6 @@ using System.Linq;
 
 namespace MoneyManager.Services
 {
-
     public enum OperationType
     {
         Income,
@@ -19,7 +19,6 @@ namespace MoneyManager.Services
         private readonly IAssetRepository _assetRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly ICategoryRepository _categoryRepository;
-        delegate IEnumerable<Transaction> GetTransactions(int userId, int type);
 
         public MoneyManagerService(IUserRepository userRepository,
                                    IAssetRepository assetRepository,
@@ -31,8 +30,6 @@ namespace MoneyManager.Services
             _transactionRepository = transactionRepository;
             _categoryRepository = categoryRepository;
         }
-
-
 
         public object GetUserBalance(int userId)
         {
@@ -156,7 +153,7 @@ namespace MoneyManager.Services
                 if (operationType == OperationType.Income)
                     return GetCategoryBalance(userId, 1);
                 else
-                    return GetCategoryBalance(userId, 0);
+                    return GetCategoryBalance(userId, operationType == OperationType.Income ? 1 : 0);
             }
             catch
             {

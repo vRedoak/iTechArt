@@ -1,8 +1,11 @@
-﻿namespace MoneyManager.Repositories
+﻿using MoneyManager.Models;
+using System.Threading.Tasks;
+
+namespace MoneyManager.Repositories
 {
     public interface IUserRepository: IRepository<User>
     {
-        User GetUser(int id);
-        User GetUser(string email);
+        Task<User> GetUser(int id);
+        Task<User> GetUser(string email);
     }
 }

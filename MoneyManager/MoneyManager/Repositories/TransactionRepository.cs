@@ -1,49 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MoneyManager.Models;
 
 namespace MoneyManager.Repositories
 {
-    class TransactionRepository : IRepository<Transaction>, ITransactionRepository
+    class TransactionRepository : ITransactionRepository
     {
-        private readonly MoneyManagerContext db;
+        private readonly MoneyManagerContext _db;
 
         public TransactionRepository(MoneyManagerContext context)
         {
-            db = context;
+            _db = context;
         }
 
         public void Create(Transaction item)
         {
-            db.Transactions.Add(item);
+            _db.Transactions.Add(item);
+        }
+
+        public async Task CreateAsync(Transaction item)
+        {
+            await _db.Transactions.AddAsync(item);
         }
 
         public void Delete(int id)
         {
-            var transaction = db.Transactions.Find(id);
+            var transaction = _db.Transactions.Find(id);
             if (transaction != null)
-                db.Transactions.Remove(transaction);
+                _db.Transactions.Remove(transaction);
         }
 
         public IEnumerable<Transaction> GetList()
         {
-            return db.Transactions;
+            return _db.Transactions;
         }
 
         public void Save()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _db.SaveChangesAsync();
         }
 
         public void Update(Transaction item)
         {
-            db.Transactions.Update(item);
-            db.Entry(item).State = EntityState.Modified;
+            _db.Transactions.Update(item);
+            _db.Entry(item).State = EntityState.Modified;
         }
 
-        public DateTime GetDate(Transaction transaction)
+        public DateTime GetDate(Transaction item)
         {
-            return (DateTime)db.Entry(transaction).Property("Date").CurrentValue;
+            return (DateTime)_db.Entry(item).Property("Date").CurrentValue;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MoneyManager.Repositories;
+﻿using MoneyManager.Models;
+using MoneyManager.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,11 +23,11 @@ namespace MoneyManager.Services
             catch { throw; }
         }
 
-        public void Add(Transaction transaction)
+        public void Add(Transaction item)
         {
             try
             {
-                _transactionRepository.Create(transaction);
+                _transactionRepository.Create(item);
             }
             catch { throw; }
         }
@@ -40,11 +41,11 @@ namespace MoneyManager.Services
             catch { throw; }
         }
 
-        public void Update(Transaction transaction)
+        public void Update(Transaction item)
         {
             try
             {
-                _transactionRepository.Update(transaction);
+                _transactionRepository.Update(item);
             }
             catch { throw; }
         }

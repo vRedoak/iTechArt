@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Serialization;
 
-namespace MoneyManager
+namespace MoneyManager.Models
 {
     public class Transaction
     {

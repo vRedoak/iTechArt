@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyManager.Models;
+using System;
 
 namespace MoneyManager.Repositories
 {

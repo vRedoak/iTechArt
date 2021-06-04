@@ -1,4 +1,5 @@
-﻿using MoneyManager.Repositories;
+﻿using MoneyManager.Models;
+using MoneyManager.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,11 +26,11 @@ namespace MoneyManager.Services
             }
         }
 
-        public void Add(Asset asset)
+        public void Add(Asset item)
         {
             try
             {
-                _assetRepository.Create(asset);
+                _assetRepository.Create(item);
             }
             catch
             {
@@ -49,11 +50,11 @@ namespace MoneyManager.Services
             }
         }
 
-        public void Update(Asset asset)
+        public void Update(Asset item)
         {
             try
             {
-                _assetRepository.Update(asset);
+                _assetRepository.Update(item);
             }
             catch
             {

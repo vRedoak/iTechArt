@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MoneyManager.Repositories
 {
@@ -10,5 +10,10 @@ namespace MoneyManager.Repositories
         void Update(T item);
         void Delete(int id);
         void Save();
+        Task<IEnumerable<T>> GetListAsync();
+        Task CreateAsync(T item);
+        Task UpdateAsync(T item);
+        Task DeleteAsync(int id);
+        Task SaveAsync();
     }
 }

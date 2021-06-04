@@ -1,4 +1,5 @@
-﻿using MoneyManager.Repositories;
+﻿using MoneyManager.Models;
+using MoneyManager.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,11 +51,11 @@ namespace MoneyManager.Services
             }
         }
 
-        public void Add(User user)
+        public void Add(User item)
         {
             try
             {
-                _userRepository.Create(user);
+                _userRepository.Create(item);
             }
             catch
             {
@@ -71,11 +72,11 @@ namespace MoneyManager.Services
             catch { throw; }
         }
 
-        public void Update(User user)
+        public void Update(User item)
         {
             try
             {
-                _userRepository.Update(user);
+                _userRepository.Update(item);
             }
             catch { throw; }
         }
