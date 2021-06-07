@@ -1,9 +1,11 @@
-﻿using MoneyManager.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MoneyManager.Models;
 using MoneyManager.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MoneyManager.Services
 {
@@ -20,15 +22,12 @@ namespace MoneyManager.Services
         private readonly ITransactionRepository _transactionRepository;
         private readonly ICategoryRepository _categoryRepository;
 
-        public MoneyManagerService(IUserRepository userRepository,
-                                   IAssetRepository assetRepository,
-                                   ITransactionRepository transactionRepository,
-                                   ICategoryRepository categoryRepository)
+        public MoneyManagerService(UnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;
-            _assetRepository = assetRepository;
-            _transactionRepository = transactionRepository;
-            _categoryRepository = categoryRepository;
+            _userRepository = unitOfWork.UserRepository;
+            _assetRepository = unitOfWork.AssetRepository;
+            _transactionRepository = unitOfWork.TransactionRepository;
+            _categoryRepository = unitOfWork.CategoryRepository;
         }
 
         public object GetUserBalance(int userId)
@@ -42,17 +41,18 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error getting user balance");
                 throw;
             }
 
         }
 
-        public IEnumerable<object> GetUserAssetWithSort(int userId)
+        public IQueryable<object> GetUserAssetWithSort(int userId)
         {
             try
             {
-                return (from asset in _assetRepository.GetList().ToList()
-                        join user in _userRepository.GetList().ToList() on asset.UserId equals user.Id
+                return (from asset in _assetRepository.GetList()
+                        join user in _userRepository.GetList() on asset.UserId equals user.Id
                         where user.Id == userId
                         select new
                         {
@@ -66,58 +66,62 @@ namespace MoneyManager.Services
                                         where transaction.AssetId == asset.Id
                                         select transaction
                                        ).ToList().Sum(x => x.Amount)
-                        }).OrderBy(x=>x.AssetName).ToList();
+                        }).OrderBy(x => x.AssetName).AsQueryable();
             }
             catch
             {
+                Console.WriteLine("Error getting user asset with sort");
                 throw;
             }
         }
 
-        private IEnumerable<Transaction> GetUserTransactionsByType(int userId, int type)
+        private IQueryable<Transaction> GetUserTransactionsByType(int userId, int type)
         {
             try
             {
                 return (from transaction in GetUserTransactions(userId)
-                        join category in _categoryRepository.GetList().ToList() on transaction.CategoryId equals category.Id
+                        join category in _categoryRepository.GetList() on transaction.CategoryId equals category.Id
                         where category.Type == type
-                        select transaction).ToList();
+                        select transaction).AsQueryable();
             }
             catch
             {
+                Console.WriteLine("Error getting user transaction by type");
                 throw;
             }
         }
 
-        public IEnumerable<Transaction> GetUserTransactions(int userId)
+        public IQueryable<Transaction> GetUserTransactions(int userId)
         {
             try
             {
-                return (from tran in _transactionRepository.GetList().ToList()
-                        join asset in _assetRepository.GetList().ToList() on tran.AssetId equals asset.Id
+                return (from tran in _transactionRepository.GetList()
+                        join asset in _assetRepository.GetList() on tran.AssetId equals asset.Id
                         where asset.UserId == userId
-                        select tran).ToList();
+                        select tran).AsQueryable();
             }
             catch
             {
+                Console.WriteLine("Error getting user transactions");
                 throw;
             }
         }
 
-        public IEnumerable<object> GetUserTransactionWithSort(int userId)
+        public IQueryable<object> GetUserTransactionWithSort(int userId)
         {
             try
             {
-                return (from transaction in _transactionRepository.GetList().ToList()
-                        join asset in _assetRepository.GetList().ToList() on transaction.AssetId equals asset.Id
+                return (from transaction in _transactionRepository.GetList()
+                        join asset in _assetRepository.GetList() on transaction.AssetId equals asset.Id
                         where asset.UserId == userId
-                        join category in _categoryRepository.GetList().ToList() on transaction.CategoryId equals category.Id
+                        join category in _categoryRepository.GetList() on transaction.CategoryId equals category.Id
                         orderby _transactionRepository.GetDate(transaction) descending
                         orderby asset.Name, category.Name
-                        select new { AssetName = asset.Name, CategoryName = category.Name, CategoryParentName = category.Parent?.Name, TransactionAmount = transaction.Amount, TransactionDate = _transactionRepository.GetDate(transaction), TransactionComment = transaction.Comment }).ToList();
+                        select new { AssetName = asset.Name, CategoryName = category.Name, CategoryParentName = category.Parent?.Name, TransactionAmount = transaction.Amount, TransactionDate = _transactionRepository.GetDate(transaction), TransactionComment = transaction.Comment }).AsQueryable();
             }
             catch
             {
+                Console.WriteLine("Error getting user transaction with sort");
                 throw;
             }
         }
@@ -132,21 +136,49 @@ namespace MoneyManager.Services
                     TotalIncome = GetUserTransactionsByType(userId, 1).Where(x => DateCompare(_transactionRepository.GetDate(x), startDate, endDate)).ToList().Sum(x => x.Amount),
                     TotalExpenses = GetUserTransactionsByType(userId, 0).Where(x => DateCompare(_transactionRepository.GetDate(x), startDate, endDate)).ToList().Sum(x => x.Amount),
                     Monthly = from date in dates
-                            select new
-                            {
-                                MonthName = date[0].ToString("MMMM", new CultureInfo("ru-RU")),
-                                TotalIncome = GetUserTransactionsByType(userId, 1).Where(x => DateCompare(_transactionRepository.GetDate(x), date[0], date[1])).ToList().Sum(x => x.Amount),
-                                TotalExpenses = GetUserTransactionsByType(userId, 0).Where(x => DateCompare(_transactionRepository.GetDate(x), date[0], date[1])).ToList().Sum(x => x.Amount),
-                            }
+                              select new
+                              {
+                                  MonthName = date[0].ToString("MMMM", new CultureInfo("ru-RU")),
+                                  TotalIncome = GetUserTransactionsByType(userId, 1).Where(x => DateCompare(_transactionRepository.GetDate(x), date[0], date[1])).ToList().Sum(x => x.Amount),
+                                  TotalExpenses = GetUserTransactionsByType(userId, 0).Where(x => DateCompare(_transactionRepository.GetDate(x), date[0], date[1])).ToList().Sum(x => x.Amount),
+                              }
                 };
             }
             catch
             {
+                Console.WriteLine("Error getting user income and expenses");
                 throw;
             }
         }
 
-        public IEnumerable<object> GetCategoryBalance(int userId, OperationType operationType)
+        public async Task<object> GetUserIncomeAndExpensesAsync(int userId, DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                var dates = GetDates(startDate, endDate);
+                var incomeTransactions = await GetUserTransactionsByType(userId, 1).Where(x => DateCompare(_transactionRepository.GetDate(x), startDate, endDate)).AsQueryable().ToListAsync();
+                var expensesTransaction = await GetUserTransactionsByType(userId, 0).Where(x => DateCompare(_transactionRepository.GetDate(x), startDate, endDate)).AsQueryable().ToListAsync();
+                return new
+                {
+                    TotalIncome = incomeTransactions.Sum(x => x.Amount),
+                    TotalExpenses = expensesTransaction.Sum(x => x.Amount),
+                    Monthly = from date in dates
+                              select new
+                              {
+                                  MonthName = date[0].ToString("MMMM", new CultureInfo("ru-RU")),
+                                  TotalIncome = GetUserTransactionsByType(userId, 1).Where(x => DateCompare(_transactionRepository.GetDate(x), date[0], date[1])).AsQueryable().ToListAsync().Result.Sum(x => x.Amount),
+                                  TotalExpenses = GetUserTransactionsByType(userId, 0).Where(x => DateCompare(_transactionRepository.GetDate(x), date[0], date[1])).AsQueryable().ToListAsync().Result.Sum(x => x.Amount),
+                              }
+                };
+            }
+            catch
+            {
+                Console.WriteLine("Error getting user income and expenses");
+                throw;
+            }
+        }
+
+        public IQueryable<object> GetCategoryBalance(int userId, OperationType operationType)
         {
             try
             {
@@ -157,24 +189,26 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error getting category balance");
                 throw;
             }
         }
 
-        private IEnumerable<object> GetCategoryBalance(int userId, int type)
+        private IQueryable<object> GetCategoryBalance(int userId, int type)
         {
             try
             {
-                return (from category in _categoryRepository.GetList().ToList()
+                return (from category in _categoryRepository.GetList()
                         where category.ParentId == null
                         select new
                         {
                             CategoryName = category.Name,
                             Amount = (category.Categories.Count == 0) ? GetTransactionSum(userId, category, type) : category.Categories.Sum(x => GetTransactionSum(userId, x, type)),
-                        }).OrderByDescending(x => x.Amount).OrderBy(y => y.CategoryName).ToList();
+                        }).OrderByDescending(x => x.Amount).OrderBy(y => y.CategoryName).AsQueryable();
             }
             catch
             {
+                Console.WriteLine("Error getting category balance in private method");
                 throw;
             }
         }
@@ -189,6 +223,7 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error getting transaction sum");
                 throw;
             }
         }
@@ -215,6 +250,30 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error deletion all transaction in month");
+                throw;
+            }
+
+        }
+
+        public async Task DeleteAllTransactionInMonthAsync(int userId)
+        {
+            try
+            {
+                var dateNow = DateTime.Now;
+                var startDate = StartDayOfMonth(dateNow);
+                var endDate = EndDayOfMonth(dateNow);
+                foreach (var transaction in GetUserTransactions(userId))
+                {
+                    var transactionDate = _transactionRepository.GetDate(transaction);
+                    if (DateCompare(transactionDate, startDate, endDate))
+                        _transactionRepository.Delete(transaction.Id);
+                }
+                await _transactionRepository.SaveAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Error deletion all transaction in month");
                 throw;
             }
 
@@ -234,6 +293,7 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error getting transactions");
                 throw;
             }
         }

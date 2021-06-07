@@ -1,7 +1,10 @@
 ﻿using MoneyManager.Models;
 using MoneyManager.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace MoneyManager.Services
 {
@@ -9,9 +12,9 @@ namespace MoneyManager.Services
     {
         private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(UnitOfWork unitOfWork)
         {
-            _userRepository = userRepository;
+            _userRepository = unitOfWork.UserRepository;
         }
 
         public IEnumerable<object> SortByName()
@@ -24,17 +27,48 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("User sort error");
                 throw;
             }
         }
+
+        public async Task<IEnumerable<object>> SortByNameAsync()
+        {
+            try
+            {
+               return await (from user in _userRepository.GetList()
+                        orderby user.Name
+                        select new { user.Id, user.Name, user.Email }).AsQueryable().ToListAsync();
+            }
+            catch
+            {
+                Console.WriteLine("User sort error");
+                throw;
+            }
+        }
+
         public User GetUser(int id)
         {
             try
             {
-                return GetList().Where(x => x.Id == id).FirstOrDefault();
+                return GetList().FirstOrDefault(x => x.Id == id);
             }
             catch
             {
+                Console.WriteLine("Error getting user");
+                throw;
+            }
+        }
+
+        public async Task<User> GetUserAsync(int id)
+        {
+            try
+            {
+                return await GetList().Where(x => x.Id == id).AsQueryable().FirstOrDefaultAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Error getting user");
                 throw;
             }
         }
@@ -47,6 +81,20 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error getting user");
+                throw;
+            }
+        }
+
+        public async Task<User> GetUserAsync(string email)
+        {
+            try
+            {
+                return await GetList().Where(x => x.Email == email).AsQueryable().FirstOrDefaultAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Error getting user");
                 throw;
             }
         }
@@ -59,6 +107,20 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error adding user");
+                throw;
+            }
+        }
+
+        public async Task AddAsync(User item)
+        {
+            try
+            {
+               await _userRepository.CreateAsync(item);
+            }
+            catch
+            {
+                Console.WriteLine("Error adding user");
                 throw;
             }
         }
@@ -69,7 +131,24 @@ namespace MoneyManager.Services
             {
                 _userRepository.Delete(id);
             }
-            catch { throw; }
+            catch
+            {
+                Console.WriteLine("User deletion error");
+                throw; 
+            }
+        }
+
+        public async Task RemoveAsync(int id)
+        {
+            try
+            {
+                await _userRepository.DeleteAsync(id);
+            }
+            catch
+            {
+                Console.WriteLine("User deletion error");
+                throw;
+            }
         }
 
         public void Update(User item)
@@ -78,7 +157,24 @@ namespace MoneyManager.Services
             {
                 _userRepository.Update(item);
             }
-            catch { throw; }
+            catch 
+            {
+                Console.WriteLine("User update error");
+                throw;
+            }
+        }
+
+        public async Task UpdateAsync(User item)
+        {
+            try
+            {
+                await _userRepository.UpdateAsync(item);
+            }
+            catch
+            {
+                Console.WriteLine("User update error");
+                throw;
+            }
         }
 
         public IEnumerable<User> GetList()
@@ -87,7 +183,24 @@ namespace MoneyManager.Services
             {
                 return _userRepository.GetList();
             }
-            catch { throw; }
+            catch
+            {
+                Console.WriteLine("Error getting users");
+                throw; 
+            }
+        }
+
+        public async Task<IEnumerable<User>> GetListAsync()
+        {
+            try
+            {
+                return await _userRepository.GetListAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Error getting users");
+                throw;
+            }
         }
 
         public void Save()
@@ -96,7 +209,24 @@ namespace MoneyManager.Services
             {
                 _userRepository.Save();
             }
-            catch { throw; }
+            catch
+            {
+                Console.WriteLine("Save error");
+                throw;
+            }
+        }
+
+        public async Task SaveAsync()
+        {
+            try
+            {
+                await _userRepository.SaveAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Save error");
+                throw;
+            }
         }
     }
 }

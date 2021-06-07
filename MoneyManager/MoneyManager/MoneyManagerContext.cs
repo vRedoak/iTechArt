@@ -36,7 +36,6 @@ namespace MoneyManager
                         transaction.Rollback();
                     }
                 }
-
             }
 
         }
@@ -48,7 +47,7 @@ namespace MoneyManager
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = MoneyManager; Integrated Security = True;");
+            optionsBuilder.UseSqlServer(@"Data Source = WSA-112-21\SQL_EXPRESS; Initial Catalog = MoneyManager; Integrated Security = True; MultipleActiveResultSets=true");
         }
 
         public override int SaveChanges()
@@ -65,7 +64,7 @@ namespace MoneyManager
                     var encryption = new Encryption();
                     entityEntry.Property("Hash").CurrentValue = encryption.Encrypt(entityEntry.Property("Salt").CurrentValue.ToString(), entityEntry.Property("Hash").CurrentValue.ToString());
                 }
-                    
+
             }
             return base.SaveChanges();
         }

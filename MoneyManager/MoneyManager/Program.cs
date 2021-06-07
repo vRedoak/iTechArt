@@ -1,4 +1,5 @@
 ﻿using System;
+using MoneyManager.Services;
 
 namespace MoneyManager
 {
@@ -8,14 +9,12 @@ namespace MoneyManager
         {
             using (var uof = new UnitOfWork())
             {
-                uof.MoneyManagerService.DeleteAllTransactionInMonth(1);
-                Console.WriteLine(uof.UserService.GetUser("u1@mail.ru").Name);
-                var request1 = uof.UserService.SortByName();
-                var request2 = uof.MoneyManagerService.GetUserBalance(2);
-                var request3 = uof.MoneyManagerService.GetUserAssetWithSort(2);
-                var request4 = uof.MoneyManagerService.GetUserTransactionWithSort(2);
-                var request5 = uof.MoneyManagerService.GetUserIncomeAndExpenses(2, new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1), DateTime.Now.AddMonths(2));
-                var request6 = uof.MoneyManagerService.GetCategoryBalance(2, Services.OperationType.Expenses);
+                MoneyManagerService moneyManager = new MoneyManagerService(uof);
+                var t = moneyManager.GetUserTransactions(2);
+                foreach (var tf in t)
+                {
+                    Console.WriteLine(tf.Category + " ; " + tf.Amount);
+                }
                 Console.ReadLine();
             }
         }

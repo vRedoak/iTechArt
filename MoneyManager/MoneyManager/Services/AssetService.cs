@@ -1,7 +1,10 @@
-﻿using MoneyManager.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MoneyManager.Models;
 using MoneyManager.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MoneyManager.Services
 {
@@ -9,9 +12,9 @@ namespace MoneyManager.Services
     {
         private readonly IAssetRepository _assetRepository;
 
-        public AssetService(IAssetRepository assetRepository)
+        public AssetService(UnitOfWork unitOfWork)
         {
-            _assetRepository = assetRepository;
+            _assetRepository = unitOfWork.AssetRepository;
         }
 
         public Asset GetAsset(int id)
@@ -22,6 +25,20 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error getting asset");
+                throw;
+            }
+        }
+
+        public async Task<Asset> GetAssetAsync(int id)
+        {
+            try
+            {
+                return await _assetRepository.GetList().AsQueryable().FirstOrDefaultAsync(x => x.Id == id);
+            }
+            catch
+            {
+                Console.WriteLine("Error getting asset");
                 throw;
             }
         }
@@ -34,6 +51,20 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error adding asset");
+                throw;
+            }
+        }
+
+        public async Task AddAsync(Asset item)
+        {
+            try
+            {
+                await _assetRepository.CreateAsync(item);
+            }
+            catch
+            {
+                Console.WriteLine("Error adding asset");
                 throw;
             }
         }
@@ -46,6 +77,20 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error deleting asset");
+                throw;
+            }
+        }
+
+        public async Task RemoveAsync(int id)
+        {
+            try
+            {
+                await _assetRepository.DeleteAsync(id);
+            }
+            catch
+            {
+                Console.WriteLine("Error deleting asset");
                 throw;
             }
         }
@@ -58,6 +103,20 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error update asset");
+                throw;
+            }
+        }
+
+        public async Task UpdateAsync(Asset item)
+        {
+            try
+            {
+                await _assetRepository.UpdateAsync(item);
+            }
+            catch
+            {
+                Console.WriteLine("Error update asset");
                 throw;
             }
         }
@@ -70,6 +129,20 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Error getting assets");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Asset>> GetListAsync()
+        {
+            try
+            {
+                return await _assetRepository.GetListAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Error getting assets");
                 throw;
             }
         }
@@ -82,6 +155,20 @@ namespace MoneyManager.Services
             }
             catch
             {
+                Console.WriteLine("Save Error");
+                throw;
+            }
+        }
+
+        public async Task SaveAsync()
+        {
+            try
+            {
+               await _assetRepository.SaveAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Save Error");
                 throw;
             }
         }

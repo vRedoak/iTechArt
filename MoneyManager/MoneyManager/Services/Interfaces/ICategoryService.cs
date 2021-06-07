@@ -1,6 +1,6 @@
 ﻿using MoneyManager.Models;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 
 namespace MoneyManager.Services
 {
@@ -12,5 +12,11 @@ namespace MoneyManager.Services
         void Update(Category item);
         void Remove(int id);
         void Save();
+        Task<Category> GetCategoryAsync(int id);
+        Task<IEnumerable<Category>> GetListAsync();
+        Task AddAsync(Category item);
+        Task UpdateAsync(Category item);
+        Task RemoveAsync(int id);
+        Task SaveAsync();
     }
 }

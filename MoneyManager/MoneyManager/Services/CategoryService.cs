@@ -1,7 +1,10 @@
-﻿using MoneyManager.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MoneyManager.Models;
 using MoneyManager.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MoneyManager.Services
 {
@@ -9,19 +12,33 @@ namespace MoneyManager.Services
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryService(ICategoryRepository categoryRepository)
+        public CategoryService(UnitOfWork unitOfWork)
         {
-            _categoryRepository = categoryRepository;
+            _categoryRepository = unitOfWork.CategoryRepository;
         }
 
         public Category GetCategory(int id)
         {
             try
             {
-                return _categoryRepository.GetList().Where(x => x.Id == id).FirstOrDefault();
+                return _categoryRepository.GetList().FirstOrDefault(x => x.Id == id);
             }
             catch
             {
+                Console.WriteLine("Error getting category");
+                throw;
+            }
+        }
+
+        public async Task<Category> GetCategoryAsync(int id)
+        {
+            try
+            {
+                return await _categoryRepository.GetList().AsQueryable().FirstOrDefaultAsync(x => x.Id == id);
+            }
+            catch
+            {
+                Console.WriteLine("Error getting category");
                 throw;
             }
         }
@@ -32,7 +49,23 @@ namespace MoneyManager.Services
             {
                 _categoryRepository.Create(item);
             }
-            catch { throw; }
+            catch
+            {
+                Console.WriteLine("Error adding category");
+                throw;
+            }
+        }
+        public async Task AddAsync(Category item)
+        {
+            try
+            {
+                await _categoryRepository.CreateAsync(item);
+            }
+            catch
+            {
+                Console.WriteLine("Error adding category");
+                throw;
+            }
         }
 
         public void Remove(int id)
@@ -41,7 +74,24 @@ namespace MoneyManager.Services
             {
                 _categoryRepository.Delete(id);
             }
-            catch { throw; }
+            catch
+            {
+                Console.WriteLine("Error deletion category");
+                throw;
+            }
+        }
+
+        public async Task RemoveAsync(int id)
+        {
+            try
+            {
+                await _categoryRepository.DeleteAsync(id);
+            }
+            catch
+            {
+                Console.WriteLine("Error deletion category");
+                throw;
+            }
         }
 
         public void Update(Category item)
@@ -50,7 +100,24 @@ namespace MoneyManager.Services
             {
                 _categoryRepository.Update(item);
             }
-            catch { throw; }
+            catch
+            {
+                Console.WriteLine("Error update category");
+                throw;
+            }
+        }
+
+        public async Task UpdateAsync(Category item)
+        {
+            try
+            {
+                await _categoryRepository.UpdateAsync(item);
+            }
+            catch
+            {
+                Console.WriteLine("Error update category");
+                throw;
+            }
         }
 
         public IEnumerable<Category> GetList()
@@ -59,7 +126,24 @@ namespace MoneyManager.Services
             {
                 return _categoryRepository.GetList();
             }
-            catch { throw; }
+            catch
+            {
+                Console.WriteLine("Error getting category");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Category>> GetListAsync()
+        {
+            try
+            {
+                return await _categoryRepository.GetListAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Error getting category");
+                throw;
+            }
         }
 
         public void Save()
@@ -68,7 +152,24 @@ namespace MoneyManager.Services
             {
                 _categoryRepository.Save();
             }
-            catch { throw; }
+            catch
+            {
+                Console.WriteLine("Save Error");
+                throw;
+            }
+        }
+
+        public async Task SaveAsync()
+        {
+            try
+            {
+                await _categoryRepository.SaveAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Save Error");
+                throw;
+            }
         }
     }
 }

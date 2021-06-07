@@ -17,22 +17,12 @@ namespace MoneyManager.Repositories
 
         public User GetUser(int id)
         {
-            return _db.Users.AsQueryable().FirstOrDefault(x => x.Id == id);
+            return _db.Users.Find(id);
         }
 
         public async Task<User> GetUserAsync(int id)
         {
-            return await _db.Users.AsQueryable().FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public User GetUser(string email)
-        {
-            return _db.Users.AsQueryable().FirstOrDefault(x => x.Email == email);
-        }
-
-        public async Task<User> GetUserAsync(string email)
-        {
-            return await _db.Users.AsQueryable().FirstOrDefaultAsync(x => x.Email == email);
+            return await _db.Users.FindAsync(id);
         }
 
         public void Create(User item)
@@ -56,12 +46,18 @@ namespace MoneyManager.Repositories
         {
             var user = await _db.Users.FindAsync(id);
             if (user != null)
-                _db.Users.Remove(user); 
+                _db.Users.Remove(user);
+            await _db.SaveChangesAsync();
         }
 
         public IEnumerable<User> GetList()
         {
-            return _db.Users.ToList();
+            return _db.Users.AsQueryable();
+        }
+
+        public async Task<IEnumerable<User>> GetListAsync()
+        {
+            return await _db.Users.ToListAsync();
         }
 
         public void Save()
@@ -69,9 +65,20 @@ namespace MoneyManager.Repositories
             _db.SaveChanges();
         }
 
+        public async Task SaveAsync()
+        {
+           await _db.SaveChangesAsync();
+        }
+
         public void Update(User item)
         {
             _db.Users.Update(item);
+        }
+
+        public async Task UpdateAsync(User item)
+        {
+            _db.Users.Update(item);
+            await _db.SaveChangesAsync();
         }
     }
 }

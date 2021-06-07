@@ -30,9 +30,22 @@ namespace MoneyManager.Repositories
                 _db.Categories.Remove(category);
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var category = await _db.Categories.FindAsync(id);
+            if (category != null)
+                _db.Categories.Remove(category);
+            await _db.SaveChangesAsync();
+        }
+
         public IEnumerable<Category> GetList()
         {
             return _db.Categories;
+        }
+
+        public async Task<IEnumerable<Category>> GetListAsync()
+        {
+            return await _db.Categories.ToListAsync();
         }
 
         public void Save()
@@ -49,6 +62,13 @@ namespace MoneyManager.Repositories
         {
             _db.Categories.Update(item);
             _db.Entry(item).State = EntityState.Modified;
+        }
+
+        public async Task UpdateAsync(Category item)
+        {
+            _db.Categories.Update(item);
+            _db.Entry(item).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }

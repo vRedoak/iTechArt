@@ -57,5 +57,24 @@ namespace MoneyManager.Repositories
         {
             return (DateTime)_db.Entry(item).Property("Date").CurrentValue;
         }
+
+        public async Task<IEnumerable<Transaction>> GetListAsync()
+        {
+            return await _db.Transactions.ToListAsync();
+        }
+
+        public async Task UpdateAsync(Transaction item)
+        {
+            _db.Transactions.Update(item);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var transaction = await _db.Transactions.FindAsync(id);
+            if (transaction != null)
+                _db.Transactions.Remove(transaction);
+            await _db.SaveChangesAsync();
+        }
     }
 }
